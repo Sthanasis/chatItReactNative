@@ -3,8 +3,10 @@ import React from 'react';
 
 import { StackParamList } from '../AppTypes';
 import SettingsHeaderIcon from '../components/ui/SettingsHeaderIcon';
+import LoginScreen from '../screens/Login';
 
 import Settings from '../screens/Settings';
+import SignUpScreen from '../screens/SignUpScreen';
 import BottomNavigator from './BottomNavigator';
 
 interface Props {
@@ -30,6 +32,22 @@ const StackNavigator = ({
       isLoggedIn={isLoggedIn}
     />
   );
+  if (!isLoggedIn) {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SignIn"
+          component={LoginScreen}
+          options={{ headerTitle: 'Sign In' }}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUpScreen}
+          options={{ headerTitle: 'Sign Up' }}
+        />
+      </Stack.Navigator>
+    );
+  }
 
   return (
     <Stack.Navigator

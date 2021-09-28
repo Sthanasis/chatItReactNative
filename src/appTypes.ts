@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { ReactNode } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 
 export interface MessageType {
   messages: string[] | [];
@@ -11,25 +12,22 @@ export interface MessageType {
 
 export interface ButtonPropsType {
   type: string;
-  onClick: () => void;
+  onPress: () => void;
   children?: ReactNode;
   disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
+  style?: any;
+  title: string;
 }
 
 export interface InputPropsType {
   inputType?: string;
   type: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClick?: (v: string) => void;
+  onChangeText: Dispatch<SetStateAction<any>>;
   value: string;
+  secureTextEntry?: boolean;
   label?: string;
   children?: ReactNode;
   disabled?: boolean;
-  className?: string;
-  options?: string[];
-  style?: React.CSSProperties;
   name?: string;
 }
 
@@ -109,6 +107,8 @@ export type StackParamList = {
   Profile: { uid: string };
   Settings: undefined;
   BottomNav: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
 };
 
 export type NavPropsHome = NativeStackScreenProps<StackParamList, 'Home'>;

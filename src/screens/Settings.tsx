@@ -12,8 +12,8 @@ import { setTheme } from '../store/reducers/settingsSlice';
 const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
   const isSwitchOn = theme === 'dark';
-  console.log(theme);
   const dispatch = useAppDispatch();
+
   const onToggleSwitch = () => {
     dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'));
   };

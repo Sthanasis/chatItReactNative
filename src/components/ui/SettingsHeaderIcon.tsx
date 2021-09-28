@@ -11,7 +11,9 @@ interface Props {
 const SettingsHeaderIcon = ({ navigation, color }: Props) => {
   return (
     <TouchableNativeFeedback onPress={() => navigation.navigate('Settings')}>
-      <View>
+      <View
+        style={{ height: '100%', paddingVertical: 10, paddingHorizontal: 5 }}
+      >
         <Icon name="gear" color={color} size={26} />
       </View>
     </TouchableNativeFeedback>
