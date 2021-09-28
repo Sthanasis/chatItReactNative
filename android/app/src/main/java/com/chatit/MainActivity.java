@@ -1,6 +1,10 @@
 package com.chatit;
 
 import com.facebook.react.ReactActivity;
+import android.content.Intent;
+import android.content.res.Configuration;
+
+// inside public class MainActivity extends ReactActivity
 
 public class MainActivity extends ReactActivity {
 
