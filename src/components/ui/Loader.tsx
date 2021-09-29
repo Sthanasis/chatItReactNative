@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, SafeAreaView } from 'react-native';
+import ScreenStyles from '../../styles/ScreenStyles';
 
 interface Props {
   theme: string;
@@ -7,9 +8,7 @@ interface Props {
 
 const Loader = ({ theme }: Props): JSX.Element => {
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-    >
+    <SafeAreaView style={ScreenStyles.screen}>
       <ActivityIndicator
         size="large"
         color={theme === 'dark' ? 'white' : 'black'}

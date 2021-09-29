@@ -11,12 +11,12 @@ export interface MessageType {
 }
 
 export interface ButtonPropsType {
-  type: string;
-  onPress: () => void;
+  type?: string;
+  onPress?: () => void;
   children?: ReactNode;
   disabled?: boolean;
   style?: any;
-  title: string;
+  title?: string;
 }
 
 export interface InputPropsType {
@@ -107,9 +107,19 @@ export type StackParamList = {
   Profile: { uid: string };
   Settings: undefined;
   BottomNav: undefined;
+};
+
+export type LoginStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
 };
 
-export type NavPropsHome = NativeStackScreenProps<StackParamList, 'Home'>;
+export type NavPropsHome = NativeStackScreenProps<
+  StackParamList,
+  'Home' | 'Profile' | 'Settings'
+>;
 export type NavPropsProfile = NativeStackScreenProps<StackParamList, 'Profile'>;
+export type NavPropsAuth = NativeStackScreenProps<
+  LoginStackParamList,
+  'SignIn' | 'SignUp'
+>;

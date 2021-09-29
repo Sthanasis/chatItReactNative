@@ -9,8 +9,6 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Appearance, useColorScheme } from 'react-native';
-
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { Provider } from 'react-redux';
@@ -20,6 +18,7 @@ import Navigator from './src/navigations/Navigator';
 import * as storage from './src/utilities/asyncStorage';
 import { setUser } from './src/store/reducers/userSlice';
 import Loader from './src/components/ui/Loader';
+import LogginNavigator from './src/navigations/LogginNavigator';
 
 const AppWrapper = () => {
   return (
@@ -71,11 +70,14 @@ const App = () => {
     return <Loader theme={theme} />;
   }
 
+  if (!isLoggedIn) {
+    return <LogginNavigator />;
+  }
+
   return (
     <Navigator
       backgroundStyle={backgroundStyle}
       color={color}
-      isLoggedIn={isLoggedIn}
       activeColor={Colors.primary}
     />
   );

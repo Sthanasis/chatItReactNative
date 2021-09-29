@@ -12,7 +12,7 @@ const Tab = createMaterialBottomTabNavigator();
 interface Props {
   backgroundStyle: string;
   color: string;
-  isLoggedIn: boolean;
+
   activeColor: string;
 }
 
@@ -20,7 +20,6 @@ const BottomNavigator = ({
   backgroundStyle,
   color,
   activeColor,
-  isLoggedIn,
 }: Props): JSX.Element => {
   return (
     <Tab.Navigator

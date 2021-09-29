@@ -17,15 +17,21 @@ const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const getData = async () => {
+  const getData = async () => {
+    try {
       setLoading(true);
       const token = (await storage.getItem('token')) as string;
       const response = await getAllUsers(token);
       const res = await response.json();
       setUsers(res.users);
       setLoading(false);
-    };
+    } catch (err) {
+      console.log({ err });
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     getData();
   }, []);
 

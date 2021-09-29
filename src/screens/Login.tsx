@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { NavPropsHome, NavPropsProfile } from '../AppTypes';
+import { NavPropsAuth } from '../AppTypes';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -10,8 +10,8 @@ import { setUser } from '../store/reducers/userSlice';
 import screenStyles from '../styles/ScreenStyles';
 import { signIn } from '../utilities/api';
 import * as storage from '../utilities/asyncStorage';
-const LoginScreen = ({ navigation, route }: NavPropsHome): JSX.Element => {
-  // const { uid } = route.params;
+
+const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

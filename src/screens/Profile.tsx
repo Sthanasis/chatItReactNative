@@ -1,26 +1,24 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { NavPropsProfile } from '../AppTypes';
+import { NavPropsProfile, User } from '../AppTypes';
 import { useAppSelector } from '../store/hooks';
 import screenStyles from '../styles/ScreenStyles';
+import Header from '../components/Profile/Header';
 
 const Profile = ({ navigation, route }: NavPropsProfile): JSX.Element => {
-  // const { uid } = route.params;
+  const user = useAppSelector((state) => state.userState.user) as User;
   const theme = useAppSelector((state) => state.settingsState.theme);
 
   return (
     <SafeAreaView
       style={{
-        ...screenStyles.screen,
+        ...screenStyles.screenTop,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
       }}
     >
-      <Text style={theme === 'dark' && screenStyles.text}>
-        This is the Profile Page
-      </Text>
-      {/* <Text>{uid}</Text> */}
+      <Header theme={theme} user={user} />
     </SafeAreaView>
   );
 };

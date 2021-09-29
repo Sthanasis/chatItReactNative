@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { NavPropsProfile } from '../AppTypes';
+
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { useAppSelector } from '../store/hooks';

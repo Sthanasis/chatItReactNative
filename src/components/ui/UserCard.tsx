@@ -14,6 +14,7 @@ const UserCard = ({ user }: Props): JSX.Element => {
         width: '90%',
         marginBottom: 10,
         padding: 10,
+        borderRadius: 5,
       }}
     >
       <View>

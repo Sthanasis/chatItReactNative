@@ -17,7 +17,8 @@ const Button = ({
     buttonStyleBg = ButtonStyles.primary;
     buttonStyleText = ButtonStyles.primaryText;
   }
-
+  if (type === 'icon') {
+  }
   return (
     <View
       style={{
@@ -27,9 +28,13 @@ const Button = ({
       }}
     >
       <TouchableNativeFeedback onPress={onPress} disabled={disabled}>
-        <View style={{ ...ButtonStyles.button }}>
-          <Text style={{ ...buttonStyleText }}>{title}</Text>
-        </View>
+        {children ? (
+          children
+        ) : (
+          <View style={{ ...ButtonStyles.button }}>
+            <Text style={{ ...buttonStyleText }}>{title}</Text>
+          </View>
+        )}
       </TouchableNativeFeedback>
     </View>
   );

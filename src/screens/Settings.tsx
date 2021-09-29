@@ -2,12 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavPropsHome } from '../AppTypes';
 import screenStyles from '../styles/ScreenStyles';
-import buttonStyles from '../styles/ButtonStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Switch } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { setTheme } from '../store/reducers/settingsSlice';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Button from '../components/ui/Button';
+import { signOut } from '../utilities/api';
+import { setUser } from '../store/reducers/userSlice';
 
 const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
@@ -17,10 +20,20 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const onToggleSwitch = () => {
     dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'));
   };
+
+  const signOutHanlder = async () => {
+    try {
+      await signOut();
+      dispatch(setUser(null));
+    } catch (err) {
+      console.log({ err });
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
-        ...screenStyles.screen,
+        ...screenStyles.screenLeft,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
       }}
     >
@@ -35,9 +48,17 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
             onValueChange={onToggleSwitch}
           />
         </View>
-        <Text style={theme === 'dark' && screenStyles.text}>
-          This is the Settings page
-        </Text>
+        <View style={styles.option}>
+          <Text style={theme === 'dark' && screenStyles.text}>Sign out</Text>
+          <Button onPress={signOutHanlder} title="" type="icon">
+            <Icon
+              style={{ padding: 10 }}
+              color={Colors.primary}
+              name="skull"
+              size={20}
+            />
+          </Button>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -48,6 +69,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    justifyContent: 'space-between',
   },
 });
 

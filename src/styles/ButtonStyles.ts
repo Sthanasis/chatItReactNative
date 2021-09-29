@@ -12,4 +12,10 @@ export default StyleSheet.create({
   primaryText: {
     color: '#20232A',
   },
+  icon: {
+    backgroundColor: '#61DAFB',
+  },
+  iconText: {
+    color: 'white',
+  },
 });
