@@ -19,6 +19,10 @@ import * as storage from './src/utilities/asyncStorage';
 import { setUser } from './src/store/reducers/userSlice';
 import Loader from './src/components/ui/Loader';
 import LogginNavigator from './src/navigations/LogginNavigator';
+import changeNavigationBarColor, {
+  hideNavigationBar,
+  showNavigationBar,
+} from 'react-native-navigation-bar-color';
 
 const AppWrapper = () => {
   return (
@@ -64,7 +68,12 @@ const App = () => {
 
   useEffect(() => {
     checkIfUserAuth();
-  }, []);
+    if (theme === 'dark') {
+      changeNavigationBarColor('black', false, true);
+    } else {
+      changeNavigationBarColor(Colors.lighter, true, true);
+    }
+  }, [theme]);
 
   if (loading) {
     return <Loader theme={theme} />;

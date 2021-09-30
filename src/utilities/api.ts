@@ -1,7 +1,8 @@
-//const baseUrl = 'http://192.168.1.23:3000/api';//home
-const baseUrl = 'http://172.16.201.73:3000/api'; //work
+const baseUrl = 'http://192.168.1.23:3000/api'; //home
+// const baseUrl = 'http://172.16.201.73:3000/api'; //work
 import * as storage from '../utilities/asyncStorage';
-export const appUrl = 'http://172.16.201.73:3000';
+// export const appUrl = 'http://172.16.201.73:3000'; //work
+export const appUrl = 'http://192.168.1.23:3000'; // home
 
 const postOptions = (data: any) => {
   return {
