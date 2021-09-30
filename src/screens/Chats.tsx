@@ -4,7 +4,7 @@ import { NavPropsHome } from '../AppTypes';
 import screenStyles from '../styles/ScreenStyles';
 import buttonStyles from '../styles/ButtonStyles';
 import { useAppSelector } from '../store/hooks';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../utilities/colors';
 
 const Chats = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);

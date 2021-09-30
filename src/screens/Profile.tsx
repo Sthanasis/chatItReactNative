@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../utilities/colors';
 import { NavPropsProfile, User } from '../AppTypes';
 import { useAppSelector } from '../store/hooks';
 import screenStyles from '../styles/ScreenStyles';

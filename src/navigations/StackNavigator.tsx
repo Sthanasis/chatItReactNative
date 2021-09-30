@@ -19,19 +19,6 @@ interface Props {
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
-const MainScreens = ({
-  backgroundStyle,
-  color,
-
-  activeColor,
-}: Props) => (
-  <BottomNavigator
-    backgroundStyle={backgroundStyle}
-    color={color}
-    activeColor={activeColor}
-  />
-);
-
 const StackNavigator = ({
   backgroundStyle,
   color,
@@ -54,7 +41,7 @@ const StackNavigator = ({
     >
       <Stack.Screen
         name="BottomNav"
-        component={MainScreens}
+        component={BottomNavigator}
         options={({ navigation, route }) => ({
           headerRight: (props) => (
             <SettingsHeaderIcon navigation={navigation} color={color} />

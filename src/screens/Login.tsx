@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../utilities/colors';
 import { NavPropsAuth } from '../AppTypes';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';

@@ -5,7 +5,7 @@ import screenStyles from '../styles/ScreenStyles';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppSelector } from '../store/hooks';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../utilities/colors';
 import { getAllUsers } from '../utilities/api';
 
 import UserCard from '../components/ui/UserCard';

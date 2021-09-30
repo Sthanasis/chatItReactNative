@@ -5,7 +5,7 @@ import screenStyles from '../styles/ScreenStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Switch } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../utilities/colors';
 import { setTheme } from '../store/reducers/settingsSlice';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../components/ui/Button';
@@ -38,22 +38,32 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
       }}
     >
       <View>
-        <View style={styles.option}>
+        <View
+          style={{
+            ...styles.option,
+            borderColor: theme === 'dark' ? Colors.secondary : Colors.primary,
+          }}
+        >
           <Text style={theme === 'dark' && screenStyles.text}>
             Set Dark Mode {isSwitchOn ? 'Off ' : 'On '}
           </Text>
           <Switch
-            color={isSwitchOn && Colors.primary}
+            color={isSwitchOn ? Colors.secondary : Colors.primary}
             value={isSwitchOn}
             onValueChange={onToggleSwitch}
           />
         </View>
-        <View style={styles.option}>
+        <View
+          style={{
+            ...styles.option,
+            borderColor: theme === 'dark' ? Colors.secondary : Colors.primary,
+          }}
+        >
           <Text style={theme === 'dark' && screenStyles.text}>Sign out</Text>
           <Button onPress={signOutHanlder} title="" type="icon">
             <Icon
               style={{ padding: 10 }}
-              color={Colors.primary}
+              color={theme === 'dark' ? Colors.secondary : Colors.primary}
               name="skull"
               size={20}
             />
@@ -70,7 +80,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 2,
-    borderBottomColor: Colors.primary,
     paddingVertical: 10,
     paddingHorizontal: 5,
     justifyContent: 'space-between',

@@ -9,7 +9,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from './src/utilities/colors';
 
 import { Provider } from 'react-redux';
 import store from './src/store/store';

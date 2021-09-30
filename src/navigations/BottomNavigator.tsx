@@ -6,26 +6,27 @@ import Profile from '../screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Chats from '../screens/Chats';
 import Notifications from '../screens/Notifications';
+import { useAppSelector } from '../store/hooks';
+import { Colors } from '../utilities/colors';
 
 const Tab = createMaterialBottomTabNavigator();
 
-interface Props {
-  backgroundStyle: string;
-  color: string;
-
-  activeColor: string;
-}
-
-const BottomNavigator = ({
-  backgroundStyle,
-  color,
-  activeColor,
-}: Props): JSX.Element => {
+const BottomNavigator = (): JSX.Element => {
+  const theme = useAppSelector((state) => state.settingsState.theme);
+  let activeColor = '';
+  let backgroundColor = '';
+  if (theme === 'dark') {
+    activeColor = Colors.secondary;
+    backgroundColor = Colors.dark;
+  } else {
+    activeColor = Colors.primary;
+    backgroundColor = Colors.light;
+  }
   return (
     <Tab.Navigator
       initialRouteName="Home"
       activeColor={activeColor}
-      barStyle={{ backgroundColor: backgroundStyle }}
+      barStyle={{ backgroundColor }}
     >
       <Tab.Screen
         name="Home"
