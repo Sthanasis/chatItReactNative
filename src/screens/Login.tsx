@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
     <SafeAreaView
       style={{
         ...screenStyles.screen,
-        backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
+        backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}
     >
       <Input label="Email" onChangeText={setEmail} type="text" value={email} />
@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
       >
         <Button
           title="Sign Up"
-          type=""
+          type="transparent"
           onPress={() => {
             navigation.navigate('SignUp');
           }}

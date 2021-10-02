@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from '../utilities/colors';
 
 export default StyleSheet.create({
   button: {
@@ -7,10 +8,22 @@ export default StyleSheet.create({
     borderRadius: 5,
   },
   primary: {
-    backgroundColor: '#61DAFB',
+    backgroundColor: Colors.primary,
+  },
+  secondary: {
+    backgroundColor: Colors.secondary,
+  },
+  ligthText: {
+    color: Colors.lighter,
+  },
+  darkText: {
+    color: Colors.darker,
   },
   primaryText: {
-    color: '#20232A',
+    color: Colors.primary,
+  },
+  secondaryText: {
+    color: Colors.secondary,
   },
   icon: {
     backgroundColor: '#61DAFB',

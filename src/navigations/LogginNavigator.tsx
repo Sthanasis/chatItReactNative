@@ -1,26 +1,45 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import StackNavigator from './StackNavigator';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LoginStackParamList } from '../appTypes';
+import { LoginStackParamList, NavigationProps } from '../appTypes';
 import LoginScreen from '../screens/Login';
 import SignUpScreen from '../screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator<LoginStackParamList>();
 
-const LogginNavigator = () => {
+const LogginNavigator = ({
+  backgroundStyle,
+  activeColor,
+  color,
+}: NavigationProps) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <Stack.Screen
           name="SignIn"
           component={LoginScreen}
-          options={{ headerTitle: 'Sign In' }}
+          options={{
+            headerTitle: 'Sign In',
+            headerStyle: {
+              backgroundColor: backgroundStyle,
+            },
+            headerTintColor: color,
+          }}
         />
         <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
-          options={{ headerTitle: 'Sign Up' }}
+          options={{
+            headerTitle: 'Sign Up',
+            headerStyle: {
+              backgroundColor: backgroundStyle,
+            },
+            headerTintColor: color,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

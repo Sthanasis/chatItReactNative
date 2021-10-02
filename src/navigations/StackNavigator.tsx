@@ -1,30 +1,20 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
-import { StackParamList } from '../AppTypes';
+import { NavigationProps, StackParamList } from '../AppTypes';
 import SettingsHeaderIcon from '../components/ui/SettingsHeaderIcon';
-import LoginScreen from '../screens/Login';
 
 import Settings from '../screens/Settings';
-import SignUpScreen from '../screens/SignUpScreen';
-import { useAppSelector } from '../store/hooks';
+
 import BottomNavigator from './BottomNavigator';
-
-interface Props {
-  backgroundStyle: string;
-  color: string;
-
-  activeColor: string;
-}
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = ({
   backgroundStyle,
   color,
-
   activeColor,
-}: Props): JSX.Element => {
+}: NavigationProps): JSX.Element => {
   return (
     <Stack.Navigator
       screenOptions={{

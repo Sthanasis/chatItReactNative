@@ -80,7 +80,13 @@ const App = () => {
   }
 
   if (!isLoggedIn) {
-    return <LogginNavigator />;
+    return (
+      <LogginNavigator
+        backgroundStyle={backgroundStyle}
+        color={color}
+        activeColor={Colors.primary}
+      />
+    );
   }
 
   return (

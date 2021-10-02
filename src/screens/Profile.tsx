@@ -15,7 +15,7 @@ const Profile = ({ navigation, route }: NavPropsProfile): JSX.Element => {
     <SafeAreaView
       style={{
         ...screenStyles.screenTop,
-        backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
+        backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}
     >
       <Header theme={theme} user={user} />

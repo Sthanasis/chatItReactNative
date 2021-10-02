@@ -12,7 +12,7 @@ const Chats = ({ navigation, route }: NavPropsHome): JSX.Element => {
     <View
       style={{
         ...screenStyles.screen,
-        backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
+        backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}
     >
       <View>

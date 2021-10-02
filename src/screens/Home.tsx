@@ -32,7 +32,7 @@ const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
   };
 
   useEffect(() => {
-    getData();
+    // getData();
   }, []);
 
   if (loading) {
@@ -43,7 +43,7 @@ const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
     <SafeAreaView
       style={{
         ...screenStyles.screen,
-        backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
+        backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}
     >
       {users.map((user) => (

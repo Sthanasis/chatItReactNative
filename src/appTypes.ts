@@ -21,14 +21,16 @@ export interface ButtonPropsType {
 
 export interface InputPropsType {
   inputType?: string;
-  type: string;
-  onChangeText: Dispatch<SetStateAction<any>>;
+  type: 'text' | 'select';
+  onChangeText?: Dispatch<SetStateAction<any>>;
+  onChangeSelect?: (item: string) => void;
   value: string;
   secureTextEntry?: boolean;
   label?: string;
   children?: ReactNode;
   disabled?: boolean;
   name?: string;
+  selectData?: string[];
 }
 
 export interface User {
@@ -100,6 +102,12 @@ export interface Message {
 export interface ChatRoomDbSchema {
   roomId: string;
   chats: Message[];
+}
+
+export interface NavigationProps {
+  backgroundStyle: string;
+  color: string;
+  activeColor: string;
 }
 
 export type StackParamList = {

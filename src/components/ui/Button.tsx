@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableNativeFeedback, View } from 'react-native';
 import { ButtonPropsType } from '../../appTypes';
+import { useAppSelector } from '../../store/hooks';
 import ButtonStyles from '../../styles/ButtonStyles';
 
 const Button = ({
@@ -11,14 +12,29 @@ const Button = ({
   disabled,
   title,
 }: ButtonPropsType): JSX.Element => {
+  const theme = useAppSelector((state) => state.settingsState.theme);
+
   let buttonStyleBg = {};
   let buttonStyleText = {};
+
   if (type === 'regular') {
-    buttonStyleBg = ButtonStyles.primary;
-    buttonStyleText = ButtonStyles.primaryText;
+    if (theme === 'dark') {
+      buttonStyleBg = ButtonStyles.secondary;
+      buttonStyleText = ButtonStyles.darkText;
+    } else {
+      buttonStyleBg = ButtonStyles.primary;
+      buttonStyleText = ButtonStyles.ligthText;
+    }
   }
-  if (type === 'icon') {
+
+  if (type === 'transparent') {
+    if (theme === 'dark') {
+      buttonStyleText = ButtonStyles.secondaryText;
+    } else {
+      buttonStyleText = ButtonStyles.primaryText;
+    }
   }
+
   return (
     <View
       style={{
@@ -40,4 +56,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default React.memo(Button);

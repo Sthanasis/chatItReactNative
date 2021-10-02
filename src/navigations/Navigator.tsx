@@ -2,20 +2,13 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
 import BottomNavigator from './BottomNavigator';
-
-interface Props {
-  backgroundStyle: string;
-  color: string;
-
-  activeColor: string;
-}
+import { NavigationProps } from '../appTypes';
 
 const Navigator = ({
   backgroundStyle,
   color,
-
   activeColor,
-}: Props) => {
+}: NavigationProps) => {
   return (
     <NavigationContainer>
       <StackNavigator

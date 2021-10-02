@@ -13,7 +13,7 @@ const Notifications = ({ navigation, route }: NavPropsHome): JSX.Element => {
     <SafeAreaView
       style={{
         ...screenStyles.screen,
-        backgroundColor: theme === 'dark' ? Colors.dark : Colors.lighter,
+        backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}
     >
       <View>

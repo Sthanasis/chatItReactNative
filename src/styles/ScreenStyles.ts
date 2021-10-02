@@ -38,4 +38,8 @@ export default StyleSheet.create({
     color: Colors.lighter,
     fontWeight: 'bold',
   },
+  scrollScreen: {
+    paddingVertical: 10,
+    flex: 1,
+  },
 });

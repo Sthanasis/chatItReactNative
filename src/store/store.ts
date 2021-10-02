@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import chatReducer from './reducers/chatSlice';
 import settingsReducer from './reducers/settingsSlice';
-
+import appReducer from './reducers/appSlice';
 import userReducer from './reducers/userSlice';
 
 const store = configureStore({
@@ -10,6 +10,7 @@ const store = configureStore({
     chatState: chatReducer,
     settingsState: settingsReducer,
     userState: userReducer,
+    appState: appReducer,
   },
   devTools: true,
 });

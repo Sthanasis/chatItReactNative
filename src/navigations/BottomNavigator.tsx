@@ -13,8 +13,10 @@ const Tab = createMaterialBottomTabNavigator();
 
 const BottomNavigator = (): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
+
   let activeColor = '';
   let backgroundColor = '';
+
   if (theme === 'dark') {
     activeColor = Colors.secondary;
     backgroundColor = Colors.dark;
@@ -22,6 +24,7 @@ const BottomNavigator = (): JSX.Element => {
     activeColor = Colors.primary;
     backgroundColor = Colors.light;
   }
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -71,4 +74,5 @@ const BottomNavigator = (): JSX.Element => {
     </Tab.Navigator>
   );
 };
+
 export default BottomNavigator;
