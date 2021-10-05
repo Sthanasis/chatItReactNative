@@ -21,16 +21,18 @@ export interface ButtonPropsType {
 
 export interface InputPropsType {
   inputType?: string;
-  type: 'text' | 'select';
+  type: 'text' | 'select' | 'date';
   onChangeText?: Dispatch<SetStateAction<any>>;
   onChangeSelect?: (item: string) => void;
-  value: string;
+  onChangeDate?: (date: Date) => void;
+  value: string | Date;
   secureTextEntry?: boolean;
   label?: string;
   children?: ReactNode;
   disabled?: boolean;
   name?: string;
   selectData?: string[];
+  hasBorder?: boolean;
 }
 
 export interface User {

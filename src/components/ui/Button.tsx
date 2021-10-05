@@ -39,6 +39,7 @@ const Button = ({
     <View
       style={{
         ...buttonStyleBg,
+        ...style,
         borderRadius: 5,
         overflow: 'hidden',
       }}

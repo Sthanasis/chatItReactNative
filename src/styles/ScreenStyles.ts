@@ -39,7 +39,8 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   scrollScreen: {
+    ...flexCenter,
     paddingVertical: 10,
-    flex: 1,
+    flex: 0,
   },
 });

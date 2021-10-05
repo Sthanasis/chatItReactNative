@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, TextStyle, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, ScrollView, Text, TextStyle, View } from 'react-native';
 import { Colors } from '../utilities/colors';
 
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { useAppSelector } from '../store/hooks';
 import screenStyles from '../styles/ScreenStyles';
+import { NavPropsAuth } from '../appTypes';
+import { useTextColor } from '../utilities/hooks';
+import { isEmail } from '../utilities/utils';
 
-const SignUpScreen = (): JSX.Element => {
+const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
 
   const [email, setEmail] = useState('');
@@ -17,6 +19,43 @@ const SignUpScreen = (): JSX.Element => {
   const [gender, setGender] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState(new Date('1/1/2000'));
+
+  const color = useTextColor();
+
+  const textStyle: TextStyle = {
+    color,
+    fontWeight: 'bold',
+    fontSize: 17,
+  };
+
+  const onGenderChange = (v: string) => {
+    setGender(v);
+  };
+
+  const onDateOfBirthChange = (date: Date) => {
+    setDateOfBirth(date);
+  };
+
+  const validateData = () => {
+    if (email.trim() === '') return false;
+    if (!isEmail(email)) return false;
+    if (password === '') return false;
+    if (verifyPassword === '') return false;
+    if (password !== verifyPassword) return false;
+    if (gender.trim() === '') return false;
+    if (firstname.trim() === '') return false;
+    if (lastname.trim() === '') return false;
+    return true;
+  };
+
+  const onSignUp = () => {
+    if (!validateData()) {
+      Alert.alert('Error', 'Please check the data you provided');
+    } else {
+      Alert.alert('Success', 'Everything is in order');
+    }
+  };
 
   return (
     <ScrollView
@@ -25,68 +64,91 @@ const SignUpScreen = (): JSX.Element => {
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}
     >
-      <SafeAreaView
+      <View style={{ marginTop: 30, marginBottom: 50 }}>
+        <Text style={{ ...textStyle, fontSize: 24 }}>Create Account</Text>
+      </View>
+
+      <View
         style={{
-          ...screenStyles.screen,
+          marginBottom: 50,
         }}
       >
-        <View>
-          <Text>Register</Text>
-        </View>
-        <Input
-          label="Email"
-          onChangeText={setEmail}
-          type="text"
-          value={email}
-        />
-        <Input
-          label="Password"
-          secureTextEntry={true}
-          onChangeText={setPassword}
-          type="text"
-          value={password}
-        />
-        <Input
-          label="Verify Password"
-          secureTextEntry={true}
-          onChangeText={setVerifyPassword}
-          type="text"
-          value={verifyPassword}
-        />
-        <Input
-          label="First Name"
-          secureTextEntry={true}
-          onChangeText={setFirstname}
-          type="text"
-          value={firstname}
-        />
-        <Input
-          label="Last Name"
-          secureTextEntry={true}
-          onChangeText={setLastname}
-          type="text"
-          value={lastname}
-        />
-        <Input
-          label="Gender"
-          secureTextEntry={true}
-          onChangeSelect={setGender}
-          type="select"
-          value={gender}
-          selectData={['male', 'female', 'other']}
-        />
+        <Text style={{ ...textStyle, fontSize: 18, fontWeight: 'normal' }}>
+          Account Information
+        </Text>
+      </View>
+      <Input label="Email" onChangeText={setEmail} type="text" value={email} />
+      <Input
+        label="Password"
+        secureTextEntry={true}
+        onChangeText={setPassword}
+        type="text"
+        value={password}
+      />
+      <Input
+        label="Verify Password"
+        secureTextEntry={true}
+        onChangeText={setVerifyPassword}
+        type="text"
+        value={verifyPassword}
+      />
+      <View
+        style={{
+          marginBottom: 50,
+        }}
+      >
+        <Text style={{ ...textStyle, fontSize: 18, fontWeight: 'normal' }}>
+          Personal Information
+        </Text>
+      </View>
+      <Input
+        label="First Name"
+        onChangeText={setFirstname}
+        type="text"
+        value={firstname}
+      />
+      <Input
+        label="Last Name"
+        onChangeText={setLastname}
+        type="text"
+        value={lastname}
+      />
+      <Input
+        label="Gender"
+        onChangeSelect={onGenderChange}
+        type="select"
+        value={gender}
+        selectData={['male', 'female', 'other']}
+      />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '80%',
+      <Input
+        label="Date of Birth"
+        onChangeDate={onDateOfBirthChange}
+        type="date"
+        value={dateOfBirth}
+      />
+
+      <View
+        style={{
+          justifyContent: 'center',
+          width: '80%',
+        }}
+      >
+        <Button
+          title="Submit"
+          type="regular"
+          onPress={onSignUp}
+          style={{ marginBottom: 20 }}
+        />
+        <Button
+          title="Sign In"
+          type="transparent"
+          onPress={() => {
+            navigation.navigate('SignIn');
           }}
-        >
-          <Button title="Sign Up" type="" onPress={() => {}} />
-          <Button title="Submit" type="regular" onPress={() => {}} />
-        </View>
-      </SafeAreaView>
+          style={{ marginBottom: 10 }}
+        />
+      </View>
     </ScrollView>
   );
 };

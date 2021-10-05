@@ -1,5 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 import { Colors } from '../utilities/colors';
+
+const centerText: TextStyle = {
+  textAlign: 'center',
+};
 
 export default StyleSheet.create({
   button: {
@@ -14,15 +18,19 @@ export default StyleSheet.create({
     backgroundColor: Colors.secondary,
   },
   ligthText: {
+    ...centerText,
     color: Colors.lighter,
   },
   darkText: {
+    ...centerText,
     color: Colors.darker,
   },
   primaryText: {
+    ...centerText,
     color: Colors.primary,
   },
   secondaryText: {
+    ...centerText,
     color: Colors.secondary,
   },
   icon: {
