@@ -6,9 +6,10 @@ import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { useAppSelector } from '../store/hooks';
 import screenStyles from '../styles/ScreenStyles';
-import { NavPropsAuth } from '../appTypes';
+import { NavPropsAuth, UserInputData } from '../appTypes';
 import { useTextColor } from '../utilities/hooks';
-import { isEmail } from '../utilities/utils';
+import { generateUniqueUid, isEmail } from '../utilities/utils';
+import { register } from '../utilities/api';
 
 const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
@@ -49,11 +50,21 @@ const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
     return true;
   };
 
-  const onSignUp = () => {
-    if (!validateData()) {
-      Alert.alert('Error', 'Please check the data you provided');
-    } else {
-      Alert.alert('Success', 'Everything is in order');
+  const onSignUp = async () => {
+    const isFormValid = validateData();
+    console.log(isFormValid);
+    if (isFormValid) {
+      const data: UserInputData = {
+        email,
+        password,
+        dateOfBirth,
+        firstname,
+        gender,
+        lastname,
+        uid: generateUniqueUid(),
+      };
+      const res = await register(data);
+      console.log(res);
     }
   };
 

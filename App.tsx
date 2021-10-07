@@ -23,7 +23,7 @@ import changeNavigationBarColor, {
   hideNavigationBar,
   showNavigationBar,
 } from 'react-native-navigation-bar-color';
-
+import { socket } from './src/utilities/sockets';
 const AppWrapper = () => {
   return (
     <Provider store={store}>
@@ -35,6 +35,7 @@ const AppWrapper = () => {
 const App = () => {
   const theme = useAppSelector((state) => state.settingsState.theme);
   const isLoggedIn = useAppSelector((state) => state.userState.user !== null);
+  const user = useAppSelector((state) => state.userState.user);
   const [loading, setLoading] = useState(true);
   const isDarkMode = theme === 'dark';
   const color: string = isDarkMode ? Colors.light : Colors.dark;
@@ -74,6 +75,15 @@ const App = () => {
       changeNavigationBarColor(Colors.lighter, true, true);
     }
   }, [theme]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (socket.disconnected) {
+        socket.connect();
+        socket.emit('reconnect', user);
+      }
+    }
+  }, [isLoggedIn]);
 
   if (loading) {
     return <Loader theme={theme} />;

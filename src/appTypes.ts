@@ -47,11 +47,10 @@ export interface User {
 }
 
 export interface UserInputData {
-  username: string;
   firstname: string;
   gender: string;
   lastname: string;
-  age: string;
+  dateOfBirth: Date;
   email: string;
   password: string;
   uid: string;
@@ -68,6 +67,8 @@ export interface UserDBSchema {
   uid: string;
   active: boolean;
   connectedTo: string[];
+  images: string[];
+  imageUrl: string;
 }
 
 export interface UserStatus {
