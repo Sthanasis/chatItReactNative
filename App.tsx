@@ -19,10 +19,7 @@ import * as storage from './src/utilities/asyncStorage';
 import { setUser } from './src/store/reducers/userSlice';
 import Loader from './src/components/ui/Loader';
 import LogginNavigator from './src/navigations/LogginNavigator';
-import changeNavigationBarColor, {
-  hideNavigationBar,
-  showNavigationBar,
-} from 'react-native-navigation-bar-color';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { socket } from './src/utilities/sockets';
 const AppWrapper = () => {
   return (
@@ -54,7 +51,7 @@ const App = () => {
             await storage.removeItem('expires'),
             await storage.removeItem('user'),
           ];
-          const result = await Promise.all(promises);
+          await Promise.all(promises);
           setLoading(false);
         } else {
           const user = await storage.getItem('user');
