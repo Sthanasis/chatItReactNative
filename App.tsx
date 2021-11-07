@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { Colors } from './src/utilities/colors';
 
 import { Provider } from 'react-redux';
+import { StatusBar } from 'react-native';
 import store from './src/store/store';
 import { useAppDispatch, useAppSelector } from './src/store/hooks';
 import Navigator from './src/navigations/Navigator';
@@ -21,6 +22,7 @@ import Loader from './src/components/ui/Loader';
 import LogginNavigator from './src/navigations/LogginNavigator';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { socket } from './src/utilities/sockets';
+
 const AppWrapper = () => {
   return (
     <Provider store={store}>
@@ -88,20 +90,33 @@ const App = () => {
 
   if (!isLoggedIn) {
     return (
-      <LogginNavigator
-        backgroundStyle={backgroundStyle}
-        color={color}
-        activeColor={Colors.primary}
-      />
+      <>
+        <StatusBar
+          animated={true}
+          backgroundColor={theme === 'dark' ? 'black' : Colors.lighter}
+        />
+        <LogginNavigator
+          backgroundStyle={backgroundStyle}
+          color={color}
+          activeColor={Colors.primary}
+        />
+      </>
     );
   }
 
   return (
-    <Navigator
-      backgroundStyle={backgroundStyle}
-      color={color}
-      activeColor={Colors.primary}
-    />
+    <>
+      <StatusBar
+        animated={true}
+        backgroundColor={theme === 'dark' ? 'black' : Colors.lighter}
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
+      <Navigator
+        backgroundStyle={backgroundStyle}
+        color={color}
+        activeColor={Colors.primary}
+      />
+    </>
   );
 };
 

@@ -13,7 +13,6 @@ const Stack = createNativeStackNavigator<StackParamList>();
 const StackNavigator = ({
   backgroundStyle,
   color,
-  activeColor,
 }: NavigationProps): JSX.Element => {
   return (
     <Stack.Navigator
@@ -27,13 +26,12 @@ const StackNavigator = ({
           fontWeight: 'bold',
         },
         animation: 'fade_from_bottom',
-      }}
-    >
+      }}>
       <Stack.Screen
         name="BottomNav"
         component={BottomNavigator}
-        options={({ navigation, route }) => ({
-          headerRight: (props) => (
+        options={({ navigation }) => ({
+          headerRight: () => (
             <SettingsHeaderIcon navigation={navigation} color={color} />
           ),
         })}

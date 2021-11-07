@@ -4,16 +4,12 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 type Style = ViewStyle | TextStyle | ImageStyle;
 
 const flexCenter: Style = {
-  display: 'flex',
-  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   flex: 1,
 };
 
 const flexLeft: Style = {
-  display: 'flex',
-  flexDirection: 'column',
   padding: 20,
   justifyContent: 'flex-start',
   flex: 1,
@@ -28,7 +24,7 @@ export default StyleSheet.create({
   },
   screenTop: {
     ...flexLeft,
-    alignItems: 'center',
+
     padding: 0,
   },
   text: {

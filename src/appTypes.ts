@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { Dispatch, ReactNode, SetStateAction } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface MessageType {
   messages: string[] | [];
@@ -134,3 +133,5 @@ export type NavPropsAuth = NativeStackScreenProps<
   LoginStackParamList,
   'SignIn' | 'SignUp'
 >;
+
+export type AppTheme = 'dark' | 'light';

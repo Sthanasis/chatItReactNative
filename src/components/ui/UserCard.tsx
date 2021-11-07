@@ -1,22 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { User } from '../../appTypes';
+import { Colors } from '../../utilities/colors';
 
 interface Props {
   user: User;
+  theme: 'dark' | 'light';
 }
 
-const UserCard = ({ user }: Props): JSX.Element => {
+const UserCard = ({ user, theme }: Props): JSX.Element => {
   return (
-    <View
-      style={{
-        backgroundColor: 'grey',
-        width: '90%',
-        marginBottom: 10,
-        padding: 10,
-        borderRadius: 5,
-      }}
-    >
+    <View style={styles(theme).card}>
       <View>
         <Text>{user.firstname}</Text>
       </View>
@@ -26,5 +20,17 @@ const UserCard = ({ user }: Props): JSX.Element => {
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme: 'dark' | 'light') => {
+  return {
+    card: {
+      backgroundColor: theme === 'dark' ? 'white' : Colors.light,
+      width: '90%',
+      marginBottom: 10,
+      padding: 10,
+      borderRadius: 5,
+    },
+  };
+});
 
 export default UserCard;

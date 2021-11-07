@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+
 import { NavPropsHome, User } from '../AppTypes';
 import screenStyles from '../styles/ScreenStyles';
 
@@ -32,7 +32,7 @@ const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
   };
 
   useEffect(() => {
-    // getData();
+    getData();
   }, []);
 
   if (loading) {
@@ -44,10 +44,9 @@ const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
       style={{
         ...screenStyles.screen,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
-      }}
-    >
+      }}>
       {users.map((user) => (
-        <UserCard user={user} key={user.uid} />
+        <UserCard user={user} key={user.uid} theme={theme} />
       ))}
     </SafeAreaView>
   );

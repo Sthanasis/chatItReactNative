@@ -14,16 +14,7 @@ const Header = ({ theme, user }: Props): JSX.Element => {
       <View style={styles.header}>
         <View>
           <Image
-            style={{
-              width: 100,
-              height: 100,
-              tintColor: 'grey',
-              borderColor: 'grey',
-              backgroundColor: 'white',
-              borderWidth: 2,
-              zIndex: 3,
-              borderRadius: 50,
-            }}
+            style={styles.image}
             source={{
               uri: `${appUrl}/assets/common/${user?.gender.toLowerCase()}.png?time=${new Date()}`,
             }}
@@ -36,8 +27,7 @@ const Header = ({ theme, user }: Props): JSX.Element => {
               theme === 'dark'
                 ? { ...screenStyles.text, ...styles.text }
                 : { ...styles.text }
-            }
-          >
+            }>
             {user.firstname}
           </Text>
           <Text
@@ -45,8 +35,7 @@ const Header = ({ theme, user }: Props): JSX.Element => {
               theme === 'dark'
                 ? { ...screenStyles.text, ...styles.text }
                 : { ...styles.text }
-            }
-          >
+            }>
             {user.lastname}
           </Text>
         </View>
@@ -73,6 +62,16 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 17,
     fontWeight: 'bold',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    tintColor: 'grey',
+    borderColor: 'grey',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    zIndex: 3,
+    borderRadius: 50,
   },
 });
 

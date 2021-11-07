@@ -7,18 +7,13 @@ import SignUpScreen from '../screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator<LoginStackParamList>();
 
-const LogginNavigator = ({
-  backgroundStyle,
-  activeColor,
-  color,
-}: NavigationProps) => {
+const LogginNavigator = ({ backgroundStyle, color }: NavigationProps) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-        }}
-      >
+        }}>
         <Stack.Screen
           name="SignIn"
           component={LoginScreen}

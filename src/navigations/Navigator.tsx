@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
-import BottomNavigator from './BottomNavigator';
+
 import { NavigationProps } from '../appTypes';
 
 const Navigator = ({
