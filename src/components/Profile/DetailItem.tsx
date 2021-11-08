@@ -7,7 +7,7 @@ import { Colors } from '../../utilities/colors';
 interface Props {
   theme: AppTheme;
   iconName: string;
-  info: string;
+  info: string | number;
 }
 
 const Details = ({ theme, iconName, info }: Props) => {

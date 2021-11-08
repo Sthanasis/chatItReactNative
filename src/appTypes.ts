@@ -68,6 +68,9 @@ export interface UserDBSchema {
   connectedTo: string[];
   images: string[];
   imageUrl: string;
+  hobbies: string[];
+  about: string;
+  location: string;
 }
 
 export interface UserStatus {
