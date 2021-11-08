@@ -117,6 +117,7 @@ export type StackParamList = {
   Profile: { uid: string };
   Settings: undefined;
   BottomNav: undefined;
+  Error: undefined;
 };
 
 export type LoginStackParamList = {

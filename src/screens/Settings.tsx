@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../components/ui/Button';
 import { signOut } from '../utilities/api';
 import { setUser } from '../store/reducers/userSlice';
+import { setError } from '../store/reducers/appSlice';
 
 const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
@@ -26,7 +27,7 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
       await signOut();
       dispatch(setUser(null));
     } catch (err) {
-      console.log({ err });
+      dispatch(setError(`${err}`));
     }
   };
 
@@ -35,15 +36,13 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
       style={{
         ...screenStyles.screenLeft,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
-      }}
-    >
+      }}>
       <View>
         <View
           style={{
             ...styles.option,
             borderColor: theme === 'dark' ? Colors.secondary : Colors.primary,
-          }}
-        >
+          }}>
           <Text style={theme === 'dark' && screenStyles.text}>
             Set Dark Mode {isSwitchOn ? 'Off ' : 'On '}
           </Text>
@@ -57,8 +56,7 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
           style={{
             ...styles.option,
             borderColor: theme === 'dark' ? Colors.secondary : Colors.primary,
-          }}
-        >
+          }}>
           <Text style={theme === 'dark' && screenStyles.text}>Sign out</Text>
           <Button onPress={signOutHanlder} title="" type="icon">
             <Icon

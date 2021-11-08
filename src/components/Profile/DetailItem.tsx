@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextStyle, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AppTheme } from '../../appTypes';
 import { Colors } from '../../utilities/colors';
@@ -17,7 +17,7 @@ const Details = ({ theme, iconName, info }: Props) => {
         <Icon name={iconName} size={20} color={Colors.primary} />
       </View>
 
-      <Text style={styles(theme).text}>{info}</Text>
+      <Text style={{ ...styles(theme).text }}>{info}</Text>
     </View>
   );
 };
@@ -40,7 +40,7 @@ const styles = StyleSheet.create((theme?: AppTheme) => {
       color: theme === 'dark' ? 'white' : 'black',
       fontSize: 13,
       fontWeight: 'bold',
-    },
+    } as TextStyle,
   };
 });
 

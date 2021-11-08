@@ -17,7 +17,6 @@ const Profile = ({ navigation, route }: NavPropsProfile): JSX.Element => {
     <View
       style={{
         ...screenStyles.screenTop,
-
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}>
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>

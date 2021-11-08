@@ -22,6 +22,7 @@ import Loader from './src/components/ui/Loader';
 import LogginNavigator from './src/navigations/LogginNavigator';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { socket } from './src/utilities/sockets';
+import Error from './src/screens/Error';
 
 const AppWrapper = () => {
   return (
@@ -35,7 +36,10 @@ const App = () => {
   const theme = useAppSelector((state) => state.settingsState.theme);
   const isLoggedIn = useAppSelector((state) => state.userState.user !== null);
   const user = useAppSelector((state) => state.userState.user);
+  const errorMsg = useAppSelector((state) => state.appState.errorMsg);
+
   const [loading, setLoading] = useState(true);
+
   const isDarkMode = theme === 'dark';
   const color: string = isDarkMode ? Colors.light : Colors.dark;
   const backgroundStyle: string = isDarkMode ? Colors.darker : Colors.lighter;
@@ -88,12 +92,26 @@ const App = () => {
     return <Loader theme={theme} />;
   }
 
+  if (errorMsg) {
+    return (
+      <>
+        <StatusBar
+          animated={true}
+          backgroundColor={theme === 'dark' ? 'black' : Colors.lighter}
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+        />
+        <Error error={errorMsg} theme={theme} />
+      </>
+    );
+  }
+
   if (!isLoggedIn) {
     return (
       <>
         <StatusBar
           animated={true}
           backgroundColor={theme === 'dark' ? 'black' : Colors.lighter}
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
         />
         <LogginNavigator
           backgroundStyle={backgroundStyle}

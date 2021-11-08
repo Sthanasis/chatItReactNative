@@ -4,18 +4,21 @@ import { NavPropsHome, User } from '../AppTypes';
 import screenStyles from '../styles/ScreenStyles';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { Colors } from '../utilities/colors';
 import { getAllUsers } from '../utilities/api';
 
 import UserCard from '../components/ui/UserCard';
 import * as storage from '../utilities/asyncStorage';
 import Loader from '../components/ui/Loader';
+import { setError } from '../store/reducers/appSlice';
 
 const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const getData = async () => {
     try {
@@ -25,8 +28,8 @@ const Home = ({ navigation, route }: NavPropsHome): JSX.Element => {
       const res = await response.json();
       setUsers(res.users);
       setLoading(false);
-    } catch (err) {
-      console.log({ err });
+    } catch (err: any) {
+      dispatch(setError(`${err}`));
       setLoading(false);
     }
   };

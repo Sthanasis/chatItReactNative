@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableNativeFeedback, View } from 'react-native';
+import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import { ButtonPropsType } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
 import ButtonStyles from '../../styles/ButtonStyles';
@@ -38,12 +38,10 @@ const Button = ({
   return (
     <View
       style={{
+        ...styles.button,
         ...buttonStyleBg,
         ...style,
-        borderRadius: 5,
-        overflow: 'hidden',
-      }}
-    >
+      }}>
       <TouchableNativeFeedback onPress={onPress} disabled={disabled}>
         {children ? (
           children
@@ -56,5 +54,10 @@ const Button = ({
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  button: {
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+});
 export default React.memo(Button);

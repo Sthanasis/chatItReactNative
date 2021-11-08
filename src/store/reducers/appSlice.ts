@@ -17,13 +17,13 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    setTheme: (state, action: PayloadAction<string | null>) => {
+    setError: (state, action: PayloadAction<string | null>) => {
       state.errorMsg = action.payload;
     },
   },
 });
 
-export const { setTheme } = appSlice.actions;
+export const { setError } = appSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectState = (state: RootState) => state;
