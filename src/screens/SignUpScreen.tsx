@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
-import { Alert, ScrollView, Text, TextStyle, View } from 'react-native';
+import { ScrollView, Text, TextStyle, View } from 'react-native';
 import { Colors } from '../utilities/colors';
 
 import Button from '../components/ui/Button';
@@ -11,7 +12,7 @@ import { useTextColor } from '../utilities/hooks';
 import { generateUniqueUid, isEmail } from '../utilities/utils';
 import { register } from '../utilities/api';
 
-const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
+const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
 
   const [email, setEmail] = useState('');
@@ -20,6 +21,9 @@ const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
   const [gender, setGender] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
+  const [country, setCountry] = useState('');
+  const [about, setAbout] = useState('');
+  const [hobbies, setHobies] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(new Date('1/1/2000'));
 
   const color = useTextColor();
@@ -73,8 +77,7 @@ const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
       contentContainerStyle={{
         ...screenStyles.scrollScreen,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
-      }}
-    >
+      }}>
       <View style={{ marginTop: 30, marginBottom: 50 }}>
         <Text style={{ ...textStyle, fontSize: 24 }}>Create Account</Text>
       </View>
@@ -82,8 +85,7 @@ const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
       <View
         style={{
           marginBottom: 50,
-        }}
-      >
+        }}>
         <Text style={{ ...textStyle, fontSize: 18, fontWeight: 'normal' }}>
           Account Information
         </Text>
@@ -106,8 +108,7 @@ const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
       <View
         style={{
           marginBottom: 50,
-        }}
-      >
+        }}>
         <Text style={{ ...textStyle, fontSize: 18, fontWeight: 'normal' }}>
           Personal Information
         </Text>
@@ -139,12 +140,30 @@ const SignUpScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
         value={dateOfBirth}
       />
 
+      <Input
+        label="Country"
+        onChangeText={setCountry}
+        type="text"
+        value={country}
+      />
+
+      <Input
+        label="Hobbies"
+        onChangeText={setHobies}
+        type="text"
+        value={hobbies}
+      />
+      <Input
+        label="Something About You"
+        onChangeText={setAbout}
+        type="textarea"
+        value={about}
+      />
       <View
         style={{
           justifyContent: 'center',
           width: '80%',
-        }}
-      >
+        }}>
         <Button
           title="Submit"
           type="regular"
