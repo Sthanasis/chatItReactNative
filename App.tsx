@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Colors } from './src/utilities/colors';
 
 import { Provider } from 'react-redux';
@@ -23,6 +23,7 @@ import LogginNavigator from './src/navigations/LogginNavigator';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { socket } from './src/utilities/sockets';
 import Error from './src/screens/Error';
+import { setLoading } from './src/store/reducers/appSlice';
 
 const AppWrapper = () => {
   return (
@@ -38,7 +39,7 @@ const App = () => {
   const user = useAppSelector((state) => state.userState.user);
   const errorMsg = useAppSelector((state) => state.appState.errorMsg);
 
-  const [loading, setLoading] = useState(true);
+  const loading = useAppSelector((state) => state.appState.loading);
 
   const isDarkMode = theme === 'dark';
   const color: string = isDarkMode ? Colors.light : Colors.dark;
@@ -58,16 +59,16 @@ const App = () => {
             await storage.removeItem('user'),
           ];
           await Promise.all(promises);
-          setLoading(false);
+          dispatch(setLoading(false));
         } else {
           const user = await storage.getItem('user');
           if (user) {
             dispatch(setUser(JSON.parse(user)));
-            setLoading(false);
+            dispatch(setLoading(false));
           }
         }
     }
-    setLoading(false);
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {
