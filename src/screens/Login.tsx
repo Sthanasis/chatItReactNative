@@ -11,8 +11,9 @@ import screenStyles from '../styles/ScreenStyles';
 import { signIn } from '../utilities/api';
 import * as storage from '../utilities/asyncStorage';
 import { useTextColor } from '../utilities/hooks';
+import { setError, setLoading } from '../store/reducers/appSlice';
 
-const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
+const LoginScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,15 +23,22 @@ const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const submitHandler = async () => {
-    const response = await signIn(email, password);
-    const result = await response.json();
-    const promises = [
-      storage.setItem('token', result.result.token),
-      storage.setItem('expires', result.result.expires),
-      storage.setItem('user', JSON.stringify(result.result.user)),
-    ];
-    await Promise.all(promises);
-    dispatch(setUser(result.result.user));
+    dispatch(setLoading(true));
+    try {
+      const response = await signIn(email, password);
+      const result = await response.json();
+      const promises = [
+        storage.setItem('token', result.result.token),
+        storage.setItem('expires', result.result.expires),
+        storage.setItem('user', JSON.stringify(result.result.user)),
+      ];
+      await Promise.all(promises);
+      dispatch(setUser(result.result.user));
+      dispatch(setLoading(false));
+    } catch (err) {
+      dispatch(setLoading(false));
+      dispatch(setError(`${err}`));
+    }
   };
 
   const textStyle: TextStyle = {
@@ -44,8 +52,7 @@ const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
       style={{
         ...screenStyles.screen,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
-      }}
-    >
+      }}>
       <View style={{ alignItems: 'center', marginTop: 30, marginBottom: 50 }}>
         <Text style={{ ...textStyle, fontSize: 20 }}>Sign In</Text>
       </View>
@@ -63,8 +70,7 @@ const LoginScreen = ({ navigation, route }: NavPropsAuth): JSX.Element => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           width: '80%',
-        }}
-      >
+        }}>
         <Button
           title="Register"
           type="transparent"
