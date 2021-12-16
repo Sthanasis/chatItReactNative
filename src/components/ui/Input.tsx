@@ -15,6 +15,7 @@ const Input = ({
   value,
   secureTextEntry,
   selectData,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hasBorder = true,
   onChangeDate,
 }: InputPropsType): JSX.Element => {
@@ -31,12 +32,11 @@ const Input = ({
             selectedValue={value}
             onValueChange={
               onChangeSelect !== undefined
-                ? (itemValue, itemIndex) => onChangeSelect(itemValue as string)
+                ? (itemValue) => onChangeSelect(itemValue as string)
                 : () => {}
             }
             style={{ color: textColor }}
-            dropdownIconColor={textColor}
-          >
+            dropdownIconColor={textColor}>
             {selectData?.map((item) => (
               <Picker.Item key={item} label={item} value={item} enabled />
             ))}
@@ -53,8 +53,7 @@ const Input = ({
           <Text style={{ color: textColor }}>{label}</Text>
         </View>
         <View
-          style={{ ...styles.input, paddingHorizontal: 5, paddingVertical: 5 }}
-        >
+          style={{ ...styles.input, paddingHorizontal: 5, paddingVertical: 5 }}>
           <Button
             onPress={() => setOpen(true)}
             title={new Date(value).toDateString()}
@@ -88,6 +87,7 @@ const Input = ({
           value={value as string}
           style={{ color: textColor }}
           selectionColor={textColor}
+          multiline={type === 'textarea'}
         />
       </View>
     </View>

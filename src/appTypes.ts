@@ -20,7 +20,7 @@ export interface ButtonPropsType {
 
 export interface InputPropsType {
   inputType?: string;
-  type: 'text' | 'select' | 'date';
+  type: 'text' | 'select' | 'date' | 'textarea';
   onChangeText?: Dispatch<SetStateAction<any>>;
   onChangeSelect?: (item: string) => void;
   onChangeDate?: (date: Date) => void;
