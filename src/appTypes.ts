@@ -10,7 +10,7 @@ export interface MessageType {
 }
 
 export interface ButtonPropsType {
-  type?: string;
+  type?: 'regular' | 'transparent';
   onPress?: () => void;
   children?: ReactNode;
   disabled?: boolean;
@@ -52,6 +52,8 @@ export interface UserInputData {
   dateOfBirth: Date;
   email: string;
   password: string;
+  hobbies: string;
+  about: string;
   uid: string;
 }
 
@@ -90,9 +92,7 @@ export interface Room {
   receiverName: string;
   senderUid: string;
   receiverUid: string;
-  collapsed: boolean;
   messages: Message[];
-  index: number;
 }
 
 export interface Message {
@@ -117,22 +117,28 @@ export interface NavigationProps {
 
 export type StackParamList = {
   Home: undefined;
-  Profile: { uid: string };
+  Profile: undefined;
+  User: { user: UserDBSchema };
   Settings: undefined;
   BottomNav: undefined;
   Error: undefined;
+  ChatRoom: { user: UserDBSchema };
 };
 
 export type LoginStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
 };
-
+export type NavPropsChatRoom = NativeStackScreenProps<
+  StackParamList,
+  'ChatRoom'
+>;
 export type NavPropsHome = NativeStackScreenProps<
   StackParamList,
   'Home' | 'Profile' | 'Settings'
 >;
 export type NavPropsProfile = NativeStackScreenProps<StackParamList, 'Profile'>;
+export type NavPropsUser = NativeStackScreenProps<StackParamList, 'User'>;
 export type NavPropsAuth = NativeStackScreenProps<
   LoginStackParamList,
   'SignIn' | 'SignUp'
