@@ -7,23 +7,22 @@
  *
  * @format
  */
-
+import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { Colors } from './src/utilities/colors';
-
+import * as storage from './src/utilities/asyncStorage';
 import { Provider } from 'react-redux';
 import { StatusBar } from 'react-native';
 import store from './src/store/store';
 import { useAppDispatch, useAppSelector } from './src/store/hooks';
 import Navigator from './src/navigations/Navigator';
-import * as storage from './src/utilities/asyncStorage';
-import { setUser } from './src/store/reducers/userSlice';
 import Loader from './src/components/ui/Loader';
 import LogginNavigator from './src/navigations/LogginNavigator';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { socket } from './src/utilities/sockets';
 import Error from './src/screens/Error';
 import { setLoading } from './src/store/reducers/appSlice';
+import { setUser } from './src/store/reducers/userSlice';
 
 const AppWrapper = () => {
   return (
@@ -47,32 +46,35 @@ const App = () => {
 
   const dispatch = useAppDispatch();
 
-  const checkIfUserAuth = async () => {
-    const token = await storage.getItem('token');
-    if (token) {
-      const expires = await storage.getItem('expires');
-      if (expires)
-        if (new Date() > new Date(expires)) {
-          const promises = [
-            await storage.removeItem('token'),
-            await storage.removeItem('expires'),
-            await storage.removeItem('user'),
-          ];
-          await Promise.all(promises);
-          dispatch(setLoading(false));
-        } else {
-          const user = await storage.getItem('user');
-          if (user) {
-            dispatch(setUser(JSON.parse(user)));
+  useEffect(() => {
+    const checkIfUserAuth = async () => {
+      const token = await storage.getItem('token');
+
+      if (token) {
+        const expires = await storage.getItem('expires');
+        if (expires)
+          if (new Date() > new Date(expires)) {
+            const promises = [
+              await storage.removeItem('token'),
+              await storage.removeItem('expires'),
+              await storage.removeItem('user'),
+            ];
+            await Promise.all(promises);
             dispatch(setLoading(false));
+          } else {
+            const userCredentials = await storage.getItem('user');
+            if (userCredentials) {
+              dispatch(setUser(JSON.parse(userCredentials)));
+              dispatch(setLoading(false));
+            }
           }
-        }
-    }
-    dispatch(setLoading(false));
-  };
+      }
+      dispatch(setLoading(false));
+    };
+    checkIfUserAuth();
+  }, []);
 
   useEffect(() => {
-    checkIfUserAuth();
     if (theme === 'dark') {
       changeNavigationBarColor('black', false, true);
     } else {
