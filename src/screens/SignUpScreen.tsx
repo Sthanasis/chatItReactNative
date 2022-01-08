@@ -57,7 +57,7 @@ const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
 
   const onSignUp = async () => {
     const isFormValid = validateData();
-    console.log(isFormValid);
+
     if (isFormValid) {
       const data: UserInputData = {
         email,

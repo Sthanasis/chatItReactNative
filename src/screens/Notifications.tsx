@@ -14,8 +14,7 @@ const Notifications = ({ navigation, route }: NavPropsHome): JSX.Element => {
       style={{
         ...screenStyles.screen,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
-      }}
-    >
+      }}>
       <View>
         <Text style={theme === 'dark' && screenStyles.text}>
           This is the Notifications page
