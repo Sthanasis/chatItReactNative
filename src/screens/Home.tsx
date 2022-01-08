@@ -9,7 +9,7 @@ import { Colors } from '../utilities/colors';
 import { getAllUsers } from '../utilities/api';
 
 import UserCard from '../components/ui/UserCard';
-import * as storage from '../utilities/asyncStorage';
+
 import Loader from '../components/ui/Loader';
 import { setError } from '../store/reducers/appSlice';
 
@@ -23,8 +23,7 @@ const Home = ({ navigation }: NavPropsHome): JSX.Element => {
   const getData = async () => {
     try {
       setLoading(true);
-      const token = (await storage.getItem('token')) as string;
-      const response = await getAllUsers(token);
+      const response = await getAllUsers();
       const res = await response.json();
       setUsers(res.users);
       setLoading(false);
