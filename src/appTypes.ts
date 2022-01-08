@@ -35,7 +35,6 @@ export interface InputPropsType {
 }
 
 export interface User {
-  username: string;
   firstname: string;
   gender: string;
   lastname: string;
@@ -58,7 +57,6 @@ export interface UserInputData {
 }
 
 export interface UserDBSchema {
-  username: string;
   firstname: string;
   gender: string;
   lastname: string;
@@ -68,6 +66,8 @@ export interface UserDBSchema {
   uid: string;
   active: boolean;
   connectedTo: string[];
+  sendRequests: string[];
+  receivedRequests: string[];
   images: string[];
   imageUrl: string;
   hobbies: string[];
