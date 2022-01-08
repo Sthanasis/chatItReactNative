@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { Message, Room } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
 import { getChat } from '../../utilities/api';
 import { socket } from '../../utilities/sockets';
 import { combineUserUids } from '../../utilities/utils';
-import * as storage from '../../utilities/asyncStorage';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+
+import Loader from '../ui/Loader';
 
 interface Props {
   room: Room;
-  onClose: () => void;
 }
 
-const Chat = ({ room, onClose }: Props): JSX.Element => {
+const Chat = ({ room }: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showChat, setShowChat] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [limit, setLimit] = useState(0);
+  const [message, setMessage] = useState('');
 
-  const userId = useAppSelector((state) => state.userState.user?.uid) || '';
-  const receiverId =
-    room.receiverUid === userId ? room.senderUid : room.receiverUid;
+  const theme = useAppSelector((state) => state.settingsState.theme);
 
   const handleNewMessage = (data: Message) => {
     setMessages([...messages, data]);
+  };
+
+  const onSendMessage = () => {
+    const msg: Message = {
+      senderUid: room.senderUid,
+      receiverUid: room.receiverUid,
+      message,
+      date: new Date(),
+      senderName: room.senderName,
+      receiverName: room.receiverName,
+    };
+    handleNewMessage(msg);
+    socket.emit('send-message', msg);
+    setMessage('');
   };
 
   useEffect(() => {
@@ -52,27 +66,34 @@ const Chat = ({ room, onClose }: Props): JSX.Element => {
 
   const getChatRoomMessages = async () => {
     try {
-      const token = await storage.getItem('token');
-      if (token) {
-        const res: any = await getChat(
-          combineUserUids(userId, receiverId),
-          limit,
-          token
-        );
-        if (res.data.ok) {
-          setLoading(false);
-          setMessages(res.data.result);
-        }
-      }
+      const res: any = await getChat(
+        combineUserUids(room.senderUid, room.receiverUid),
+        limit,
+      );
+      setLoading(false);
+      setMessages(res.data.result);
     } catch (err) {
       console.log({ err });
     }
   };
 
-  const onHideChatHandler = (show: boolean) => {
-    setShowChat(show);
-  };
-  return <View></View>;
+  return loading ? (
+    <Loader theme={theme} />
+  ) : (
+    <View>
+      <ScrollView>
+        {messages.map((mesg) => (
+          <View key={mesg.date.toString()}>
+            <Text>{mesg.message}</Text>
+          </View>
+        ))}
+      </ScrollView>
+      <View>
+        <Input type="textarea" value={message} onChangeText={setMessage} />
+        <Button type="transparent" onPress={onSendMessage} title="Send" />
+      </View>
+    </View>
+  );
 };
 
 export default Chat;
