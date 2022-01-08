@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User, UserDBSchema } from '../../AppTypes';
+import { UserDBSchema } from '../../AppTypes';
 import type { RootState } from '../store';
 
 interface UserState {
   isLoggedIn: boolean;
-  user: User | null;
+  user: UserDBSchema | null;
   token: string | null;
   connections: UserDBSchema[] | [];
 }
@@ -23,7 +23,7 @@ export const UserSlice = createSlice({
     setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
     },
-    setUser: (state, action: PayloadAction<User | null>) => {
+    setUser: (state, action: PayloadAction<UserDBSchema | null>) => {
       state.user = action.payload;
     },
     setToken: (state, action: PayloadAction<string | null>) => {
