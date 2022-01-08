@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,7 +9,7 @@ import Notifications from '../screens/Notifications';
 import { useAppSelector } from '../store/hooks';
 import { Colors } from '../utilities/colors';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const BottomNavigator = (): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
@@ -28,9 +28,15 @@ const BottomNavigator = (): JSX.Element => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor={activeColor}
-      barStyle={{ backgroundColor }}
-    >
+      sceneContainerStyle={{
+        backgroundColor: backgroundColor,
+      }}
+      screenOptions={{
+        tabBarActiveTintColor: activeColor,
+
+        headerShown: false,
+        tabBarShowLabel: false,
+      }}>
       <Tab.Screen
         name="Home"
         component={Home}
@@ -56,6 +62,7 @@ const BottomNavigator = (): JSX.Element => {
         component={Chats}
         options={{
           tabBarLabel: 'Chats',
+          unmountOnBlur: true,
           tabBarIcon: ({ color }) => (
             <Icon name="inbox" color={color} size={26} />
           ),
