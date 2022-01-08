@@ -51,6 +51,7 @@ const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
     if (gender.trim() === '') return false;
     if (firstname.trim() === '') return false;
     if (lastname.trim() === '') return false;
+
     return true;
   };
 
@@ -65,10 +66,12 @@ const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
         firstname,
         gender,
         lastname,
+        about,
+        hobbies,
         uid: generateUniqueUid(),
       };
-      const res = await register(data);
-      console.log(res);
+      await register(data);
+      navigation.navigate('SignIn');
     }
   };
 
