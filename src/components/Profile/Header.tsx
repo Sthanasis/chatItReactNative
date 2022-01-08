@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
-import { User } from '../../appTypes';
+import { UserDBSchema } from '../../appTypes';
 import { appUrl } from '../../utilities/api';
 import screenStyles from '../../styles/ScreenStyles';
 
 interface Props {
-  user: User;
+  user: UserDBSchema;
   theme: string;
 }
 const Header = ({ theme, user }: Props): JSX.Element => {
@@ -16,7 +16,7 @@ const Header = ({ theme, user }: Props): JSX.Element => {
           <Image
             style={styles.image}
             source={{
-              uri: `${appUrl}/assets/common/${user?.gender.toLowerCase()}.png?time=${new Date()}`,
+              uri: `${appUrl}${user.imageUrl}?time=${new Date()}`,
             }}
           />
         </View>
