@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { LoginStackParamList, NavigationProps } from '../appTypes';
 import LoginScreen from '../screens/Login';
 import SignUpScreen from '../screens/SignUpScreen';
 
-const Stack = createNativeStackNavigator<LoginStackParamList>();
+const Stack = createStackNavigator<LoginStackParamList>();
 
 const LogginNavigator = ({ backgroundStyle, color }: NavigationProps) => {
   return (
