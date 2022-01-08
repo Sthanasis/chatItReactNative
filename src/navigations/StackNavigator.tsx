@@ -3,8 +3,10 @@ import React from 'react';
 
 import { NavigationProps, StackParamList } from '../AppTypes';
 import SettingsHeaderIcon from '../components/ui/SettingsHeaderIcon';
+import ChatRoom from '../screens/ChatRoom';
 
 import Settings from '../screens/Settings';
+import UserScreen from '../screens/UserScreen';
 
 import BottomNavigator from './BottomNavigator';
 
@@ -40,6 +42,16 @@ const StackNavigator = ({
         name="Settings"
         component={Settings}
         options={{ headerTitle: 'Settings' }}
+      />
+      <Stack.Screen
+        name="User"
+        component={UserScreen}
+        options={{ headerTitle: '' }}
+      />
+      <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoom}
+        options={{ headerTitle: '' }}
       />
     </Stack.Navigator>
   );
