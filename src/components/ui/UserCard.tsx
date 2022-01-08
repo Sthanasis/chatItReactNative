@@ -1,23 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+
 import { User } from '../../appTypes';
 import { Colors } from '../../utilities/colors';
 
 interface Props {
   user: User;
   theme: 'dark' | 'light';
+  onUserCardPress: () => void;
 }
 
-const UserCard = ({ user, theme }: Props): JSX.Element => {
+const UserCard = ({ user, theme, onUserCardPress }: Props): JSX.Element => {
   return (
-    <View style={styles(theme).card}>
-      <View>
-        <Text>{user.firstname}</Text>
+    <TouchableOpacity onPress={onUserCardPress}>
+      <View style={styles(theme).card}>
+        <View>
+          <Text>{user.firstname}</Text>
+        </View>
+        <View>
+          <Text>{user.lastname}</Text>
+        </View>
       </View>
-      <View>
-        <Text>{user.lastname}</Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
