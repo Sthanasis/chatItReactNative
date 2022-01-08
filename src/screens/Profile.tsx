@@ -2,18 +2,19 @@
 import React from 'react';
 
 import { Colors } from '../utilities/colors';
-import { NavPropsProfile, UserDBSchema } from '../AppTypes';
+import { NavPropsProfile } from '../AppTypes';
 import { useAppSelector } from '../store/hooks';
 import screenStyles from '../styles/ScreenStyles';
 import Header from '../components/Profile/Header';
 import DetailItem from '../components/Profile/DetailItem';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import Loader from '../components/ui/Loader';
 
-const Profile = ({ navigation, route }: NavPropsProfile): JSX.Element => {
-  const user = useAppSelector((state) => state.userState.user) as UserDBSchema;
+const Profile = ({}: NavPropsProfile): JSX.Element => {
+  const user = useAppSelector((state) => state.userState.user);
   const theme = useAppSelector((state) => state.settingsState.theme);
 
-  return (
+  return user ? (
     <View
       style={{
         ...screenStyles.screenTop,
@@ -52,6 +53,8 @@ const Profile = ({ navigation, route }: NavPropsProfile): JSX.Element => {
         </View>
       </ScrollView>
     </View>
+  ) : (
+    <Loader theme="light" />
   );
 };
 
