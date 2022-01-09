@@ -18,7 +18,7 @@ const BottomNavigator = (): JSX.Element => {
   let backgroundColor = '';
 
   if (theme === 'dark') {
-    activeColor = Colors.secondary;
+    activeColor = Colors.primary;
     backgroundColor = Colors.dark;
   } else {
     activeColor = Colors.primary;
@@ -28,12 +28,12 @@ const BottomNavigator = (): JSX.Element => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      sceneContainerStyle={{
-        backgroundColor: backgroundColor,
-      }}
       screenOptions={{
         tabBarActiveTintColor: activeColor,
-
+        tabBarStyle: {
+          backgroundColor,
+          borderTopWidth: 0,
+        },
         headerShown: false,
         tabBarShowLabel: false,
       }}>
