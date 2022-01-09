@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { Message, Room } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
-import { getChat } from '../../utilities/api';
+import { getChat, sendMessage } from '../../utilities/api';
+import { Colors } from '../../utilities/colors';
 import { socket } from '../../utilities/sockets';
 import { combineUserUids } from '../../utilities/utils';
 import Button from '../ui/Button';
-import Input from '../ui/Input';
 
 import Loader from '../ui/Loader';
+import MessagesList from './MessagesList';
 
 interface Props {
   room: Room;
@@ -24,21 +25,23 @@ const Chat = ({ room }: Props): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
 
   const handleNewMessage = (data: Message) => {
-    setMessages([...messages, data]);
+    setMessages([data, ...messages]);
   };
 
-  const onSendMessage = () => {
-    const msg: Message = {
-      senderUid: room.senderUid,
-      receiverUid: room.receiverUid,
-      message,
-      date: new Date(),
-      senderName: room.senderName,
-      receiverName: room.receiverName,
-    };
-    handleNewMessage(msg);
-    socket.emit('send-message', msg);
-    setMessage('');
+  const onSendMessage = async () => {
+    if (message.trim() !== '') {
+      const msg: Message = {
+        senderUid: room.senderUid,
+        receiverUid: room.receiverUid,
+        message,
+        date: new Date(),
+      };
+      handleNewMessage(msg);
+      setMessage('');
+      const res = await sendMessage(room.id, msg);
+      console.log(res);
+      socket.emit('send-message', msg);
+    }
   };
 
   useEffect(() => {
@@ -66,12 +69,13 @@ const Chat = ({ room }: Props): JSX.Element => {
 
   const getChatRoomMessages = async () => {
     try {
-      const res: any = await getChat(
+      const res = await getChat(
         combineUserUids(room.senderUid, room.receiverUid),
         limit,
       );
       setLoading(false);
-      setMessages(res.data.result);
+
+      setMessages(res.data);
     } catch (err) {
       console.log({ err });
     }
@@ -80,20 +84,47 @@ const Chat = ({ room }: Props): JSX.Element => {
   return loading ? (
     <Loader theme={theme} />
   ) : (
-    <View>
-      <ScrollView>
-        {messages.map((mesg) => (
-          <View key={mesg.date.toString()}>
-            <Text>{mesg.message}</Text>
-          </View>
-        ))}
-      </ScrollView>
-      <View>
-        <Input type="textarea" value={message} onChangeText={setMessage} />
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
+      }}>
+      <MessagesList messages={messages} />
+      <View
+        style={{
+          ...styles.textInputContainer,
+          backgroundColor: theme === 'dark' ? Colors.darker : Colors.lighter,
+        }}>
+        <TextInput
+          multiline
+          value={message}
+          onChangeText={setMessage}
+          style={{
+            color: theme === 'dark' ? Colors.light : Colors.dark,
+            ...styles.textInput,
+          }}
+        />
         <Button type="transparent" onPress={onSendMessage} title="Send" />
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  textInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 0,
+    justifyContent: 'space-between',
+  },
+  container: {
+    flex: 1,
+    padding: 0,
+    width: '100%',
+  },
+  textInput: {
+    width: '80%',
+  },
+});
 
 export default Chat;
