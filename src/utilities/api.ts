@@ -1,7 +1,7 @@
 /* IP MAY CHANGE IF ROUTER USES DYNAMIC IPS. IPCONFIG TO GET MACHINE IP ADDRESS*/
 
 const baseUrl = 'http://192.168.1.2:3000/api'; //home
-import { UserInputData } from '../appTypes';
+import { Message, UserInputData } from '../appTypes';
 // const baseUrl = 'http://172.16.201.73:3000/api'; //work
 import * as storage from '../utilities/asyncStorage';
 // export const appUrl = 'http://172.16.201.73:3000'; //work
@@ -23,6 +23,19 @@ const postOptions = (data: any) => {
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(data),
+  };
+};
+
+const postOptionsWithToken = async (data: any) => {
+  const token = await storage.getItem('token');
+
+  return {
+    method: 'POST',
+    headers: new Headers({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    }),
     body: JSON.stringify(data),
   };
 };
@@ -57,8 +70,11 @@ export const signOut = async () => {
   return Promise.all(promises);
 };
 
-export const getAllUsers = async () => {
-  return await fetch(`${baseUrl}/users/all`, await getOptions());
+export const getActiveConnections = async (uids: string[]) => {
+  return await fetch(
+    `${baseUrl}/users/activeConnections?uids=${uids}`,
+    await getOptions(),
+  );
 };
 
 export const getOneUser = async (uid: string) => {
@@ -67,10 +83,19 @@ export const getOneUser = async (uid: string) => {
 };
 
 export const getChat = async (roomId: string, limit: Number) => {
-  return await fetch(
-    `${baseUrl}/chat/?roomId=${roomId}&limit=${limit}`,
+  const res = await fetch(
+    `${baseUrl}/chats?roomId=${roomId}&limit=${limit}`,
     await getOptions(),
   );
+  return await res.json();
+};
+
+export const sendMessage = async (roomId: string, message: Message) => {
+  const res = await fetch(
+    `${baseUrl}/chats`,
+    await postOptionsWithToken({ roomId, message }),
+  );
+  return await res.json();
 };
 
 export const connectRequest = async (
