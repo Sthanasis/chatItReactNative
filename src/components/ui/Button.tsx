@@ -19,7 +19,7 @@ const Button = ({
 
   if (type === 'regular') {
     if (theme === 'dark') {
-      buttonStyleBg = ButtonStyles.secondary;
+      buttonStyleBg = ButtonStyles.primary;
       buttonStyleText = ButtonStyles.darkText;
     } else {
       buttonStyleBg = ButtonStyles.primary;
@@ -29,7 +29,7 @@ const Button = ({
 
   if (type === 'transparent') {
     if (theme === 'dark') {
-      buttonStyleText = ButtonStyles.secondaryText;
+      buttonStyleText = ButtonStyles.primaryText;
     } else {
       buttonStyleText = ButtonStyles.primaryText;
     }
