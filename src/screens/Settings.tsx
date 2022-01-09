@@ -41,13 +41,13 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
         <View
           style={{
             ...styles.option,
-            borderColor: theme === 'dark' ? Colors.secondary : Colors.primary,
+            borderColor: theme === 'dark' ? Colors.primary : Colors.primary,
           }}>
           <Text style={theme === 'dark' && screenStyles.text}>
             Set Dark Mode {isSwitchOn ? 'Off ' : 'On '}
           </Text>
           <Switch
-            color={isSwitchOn ? Colors.secondary : Colors.primary}
+            color={isSwitchOn ? Colors.primary : Colors.primary}
             value={isSwitchOn}
             onValueChange={onToggleSwitch}
           />
@@ -55,13 +55,13 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
         <View
           style={{
             ...styles.option,
-            borderColor: theme === 'dark' ? Colors.secondary : Colors.primary,
+            borderColor: theme === 'dark' ? Colors.primary : Colors.primary,
           }}>
           <Text style={theme === 'dark' && screenStyles.text}>Sign out</Text>
-          <Button onPress={signOutHanlder} title="" type="icon">
+          <Button onPress={signOutHanlder} title="" type="transparent">
             <Icon
               style={{ padding: 10 }}
-              color={theme === 'dark' ? Colors.secondary : Colors.primary}
+              color={theme === 'dark' ? Colors.primary : Colors.primary}
               name="skull"
               size={20}
             />
