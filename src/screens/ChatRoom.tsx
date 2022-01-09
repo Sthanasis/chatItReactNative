@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavPropsChatRoom, Room, UserDBSchema } from '../AppTypes';
 import Chat from '../components/ChatRoom/Chat';
 import { useAppSelector } from '../store/hooks';
 import { combineUserUids } from '../utilities/utils';
 
-const ChatRoom = ({ route }: NavPropsChatRoom): JSX.Element => {
+const ChatRoom = ({ navigation, route }: NavPropsChatRoom): JSX.Element => {
   const user = useAppSelector((state) => state.userState.user) as UserDBSchema;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: route.params.user.firstname,
+    });
+  }, []);
+
   const chatRoom: Room = {
     id: combineUserUids(user.uid, route.params.user.uid as string),
     messages: [],
