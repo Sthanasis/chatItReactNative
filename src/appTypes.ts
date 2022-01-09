@@ -100,8 +100,6 @@ export interface Message {
   receiverUid: string;
   message: string;
   date: Date;
-  senderName: string;
-  receiverName: string;
 }
 
 export interface ChatRoomDbSchema {
