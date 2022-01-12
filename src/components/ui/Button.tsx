@@ -1,5 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
+import React, { ComponentType } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableNativeFeedback,
+  TouchableNativeFeedbackProps,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+} from 'react-native';
 import { ButtonPropsType } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
 import ButtonStyles from '../../styles/ButtonStyles';
@@ -13,6 +22,10 @@ const Button = ({
   title,
 }: ButtonPropsType): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
+
+  const TouchableCmp: ComponentType<
+    TouchableOpacityProps | TouchableNativeFeedbackProps
+  > = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
 
   let buttonStyleBg = {};
   let buttonStyleText = {};
@@ -42,7 +55,7 @@ const Button = ({
         ...buttonStyleBg,
         ...style,
       }}>
-      <TouchableNativeFeedback onPress={onPress} disabled={disabled}>
+      <TouchableCmp onPress={onPress} disabled={disabled}>
         {children ? (
           children
         ) : (
@@ -50,7 +63,7 @@ const Button = ({
             <Text style={{ ...buttonStyleText }}>{title}</Text>
           </View>
         )}
-      </TouchableNativeFeedback>
+      </TouchableCmp>
     </View>
   );
 };

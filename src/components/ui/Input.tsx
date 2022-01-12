@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { TextInput, View, Text, StyleSheet } from 'react-native';
+import {
+  TextInput,
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  ViewStyle,
+} from 'react-native';
 import { InputPropsType } from '../../appTypes';
 import DatePicker from 'react-native-date-picker';
 import { Colors } from '../../utilities/colors';
@@ -15,20 +22,28 @@ const Input = ({
   value,
   secureTextEntry,
   selectData,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  hasBorder = true,
   onChangeDate,
 }: InputPropsType): JSX.Element => {
   const textColor = useTextColor();
   const [open, setOpen] = useState(false);
+
   if (type === 'select') {
+    let inputStyles: ViewStyle = styles.input;
+    if (Platform.OS === 'ios')
+      inputStyles = {
+        ...inputStyles,
+        maxHeight: 80,
+        padding: 0,
+        backgroundColor: 'rgba(0,0,0,0)',
+      };
     return (
       <View style={styles.inputContainer}>
         <View>
           <Text style={{ color: textColor }}>{label}</Text>
         </View>
-        <View style={styles.input}>
+        <View style={inputStyles}>
           <Picker
+            itemStyle={Platform.OS === 'ios' ? { maxHeight: 80 } : {}}
             selectedValue={value}
             onValueChange={
               onChangeSelect !== undefined
@@ -80,7 +95,7 @@ const Input = ({
       <View>
         <Text style={{ color: textColor }}>{label}</Text>
       </View>
-      <View style={{ ...styles.input, paddingHorizontal: 10 }}>
+      <View style={styles.input}>
         <TextInput
           secureTextEntry={secureTextEntry ? secureTextEntry : false}
           onChangeText={onChangeText}
@@ -97,7 +112,8 @@ const Input = ({
 const styles = StyleSheet.create({
   input: {
     backgroundColor: Colors.primary,
-    borderRadius: 5,
+    borderRadius: 3,
+    padding: 10,
   },
   inputContainer: {
     width: '80%',
