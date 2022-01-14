@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Message, UserDBSchema } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
@@ -6,9 +6,12 @@ import { Colors } from '../../utilities/colors';
 
 interface Props {
   messages: Message[];
+  onFetchMoreMessages: () => void;
 }
 
 const renderItem = (item: Message, user: UserDBSchema) => {
+  const messageExtraStyles =
+    item.senderUid === user.uid ? styles.sendMessage : styles.receivedMessage;
   return (
     <View
       style={
@@ -16,31 +19,37 @@ const renderItem = (item: Message, user: UserDBSchema) => {
           ? styles.sendMessageContainer
           : styles.receivedMessageContainer
       }>
-      <View
-        style={
-          item.senderUid === user.uid
-            ? styles.sendMessage
-            : styles.receivedMessage
-        }>
-        <Text>{item.message}</Text>
+      <View style={{ ...styles.messageContainer, ...messageExtraStyles }}>
+        <Text style={{ fontSize: 18 }}>{item.message}</Text>
       </View>
     </View>
   );
 };
 
-const MessagesList = ({ messages }: Props): JSX.Element => {
+const MessagesList = ({
+  messages,
+  onFetchMoreMessages,
+}: Props): JSX.Element => {
   const user = useAppSelector((state) => state.userState.user) as UserDBSchema;
 
+  console.log('rendering');
   return (
-    <FlatList
-      inverted
-      renderItem={({ item }) => renderItem(item, user)}
-      data={messages}
-    />
+    <>
+      <FlatList
+        inverted
+        renderItem={({ item }) => renderItem(item, user)}
+        onEndReached={onFetchMoreMessages}
+        data={messages}
+        onEndReachedThreshold={0.5}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  messageContainer: {
+    maxWidth: '50%',
+  },
   sendMessageContainer: {
     alignItems: 'flex-end',
   },
@@ -61,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MessagesList;
+export default memo(MessagesList);
