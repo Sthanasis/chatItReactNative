@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
+import { appBaseUrl } from '../config';
 
-export const socket = io('ws://192.168.1.2:3000', {
+export const socket = io(`ws://${appBaseUrl}`, {
   autoConnect: false,
 });
 

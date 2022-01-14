@@ -1,0 +1,1 @@
+export const appBaseUrl = '10.5.30.196:3000';

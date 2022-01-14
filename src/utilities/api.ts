@@ -1,12 +1,12 @@
-/* IP MAY CHANGE IF ROUTER USES DYNAMIC IPS. IPCONFIG TO GET MACHINE IP ADDRESS*/
+/* IP MAY CHANGE IF ROUTER USES DYNAMIC IPS. IPCONFIG or IFCONFIG TO GET MACHINE IP ADDRESS*/
 
-const baseUrl = 'http://192.168.1.2:3000/api'; //home
 import { Message, UserInputData } from '../appTypes';
-// const baseUrl = 'http://172.16.201.73:3000/api'; //work
+import { appBaseUrl } from '../config';
 import * as storage from '../utilities/asyncStorage';
-// export const appUrl = 'http://172.16.201.73:3000'; //work
-export const appUrl = 'http://192.168.1.2:3000'; // home
 
+
+const baseUrl = `http://${appBaseUrl}/api`; //home
+export const appUrl = `http://${appBaseUrl}`
 const getOptions = async () => {
   const token = await storage.getItem('token');
   return {
