@@ -1,3 +1,3 @@
 # Develop
 
-**_ UPDATE IP ON socket.ts AND api.ts files _**
+**_ UPDATE appBaseUrl IN config.ts when IP CHANGES _**
