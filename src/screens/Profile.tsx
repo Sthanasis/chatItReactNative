@@ -23,7 +23,7 @@ const Profile = ({}: NavPropsProfile): JSX.Element => {
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
         <Header theme={theme} user={user} />
         <DetailItem theme={theme} iconName="map-marker" info={user.location} />
-        <View style={{ paddingHorizontal: 5 }}>
+        <View style={{ paddingHorizontal: 5, width: '80%' }}>
           <Text
             style={{
               ...styles.description,
