@@ -26,7 +26,7 @@ const Chat = ({ room }: Props): JSX.Element => {
   const [message, setMessage] = useState('');
   const [showLoader, setShowLoader] = useState(false);
   const theme = useAppSelector((state) => state.settingsState.theme);
-  console.log(limit);
+
   const handleNewMessage = (data: Message) => {
     setMessages([data, ...messages]);
   };
