@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
 
 import { NavPropsHome, UserDBSchema } from '../AppTypes';
 import screenStyles from '../styles/ScreenStyles';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { Colors } from '../utilities/colors';
 import { getActiveConnections } from '../utilities/api';
@@ -47,20 +47,22 @@ const Home = ({ navigation }: NavPropsHome): JSX.Element => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         ...screenStyles.screenTop,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}>
-      {users.map((user) => (
-        <UserCard
-          user={user}
-          key={user.uid}
-          theme={theme}
-          onUserCardPress={() => handlePress(user)}
-        />
-      ))}
-    </SafeAreaView>
+      <ScrollView>
+        {users.map((user) => (
+          <UserCard
+            user={user}
+            key={user.uid}
+            theme={theme}
+            onUserCardPress={() => handlePress(user)}
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 

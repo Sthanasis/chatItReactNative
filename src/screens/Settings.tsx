@@ -32,7 +32,7 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={{
         ...screenStyles.screenLeft,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
@@ -68,7 +68,7 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
           </Button>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
