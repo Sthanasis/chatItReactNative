@@ -12,6 +12,9 @@ import { useTextColor } from '../utilities/hooks';
 import { generateUniqueUid, isEmail } from '../utilities/utils';
 import { register } from '../utilities/api';
 
+import countries from '../assets/data/countries';
+const COUNTRIES = countries.map((c) => c.name);
+
 const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
 
@@ -36,6 +39,10 @@ const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
 
   const onGenderChange = (v: string) => {
     setGender(v);
+  };
+
+  const onCountryChange = (v: string) => {
+    setCountry(v);
   };
 
   const onDateOfBirthChange = (date: Date) => {
@@ -145,8 +152,9 @@ const SignUpScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
 
       <Input
         label="Country"
-        onChangeText={setCountry}
-        type="text"
+        onChangeSelect={onCountryChange}
+        type="select"
+        selectData={COUNTRIES}
         value={country}
       />
 
