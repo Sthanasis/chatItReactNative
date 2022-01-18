@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-
+import Icon from 'react-native-vector-icons/Entypo';
 import { UserDBSchema } from '../../appTypes';
 import { appUrl } from '../../utilities/api';
 import { Colors } from '../../utilities/colors';
@@ -21,6 +21,13 @@ const UserCard = ({ user, theme, onUserCardPress }: Props): JSX.Element => {
     <TouchableOpacity onPress={onUserCardPress}>
       <View style={{ ...styles.card }}>
         <View>
+          <Icon
+            name="dot-single"
+            size={FONT_SIZE * 2}
+            style={{ color: user.active ? 'green' : 'grey' }}
+          />
+        </View>
+        <View>
           <Image
             style={styles.image}
             source={{
@@ -28,8 +35,7 @@ const UserCard = ({ user, theme, onUserCardPress }: Props): JSX.Element => {
             }}
           />
         </View>
-        <Text style={{ color, fontSize: FONT_SIZE }}>{user.firstname}</Text>
-        <Text> </Text>
+        <Text style={{ color, fontSize: FONT_SIZE }}>{user.firstname} </Text>
         <Text style={{ color, fontSize: FONT_SIZE }}>{user.lastname}</Text>
       </View>
     </TouchableOpacity>
