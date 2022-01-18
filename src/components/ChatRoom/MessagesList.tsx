@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, Ref } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Message, UserDBSchema } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
@@ -7,6 +7,7 @@ import { Colors } from '../../utilities/colors';
 interface Props {
   messages: Message[];
   onFetchMoreMessages: () => void;
+  flatListRef: Ref<FlatList>;
 }
 
 const renderItem = (item: Message, user: UserDBSchema) => {
@@ -29,20 +30,19 @@ const renderItem = (item: Message, user: UserDBSchema) => {
 const MessagesList = ({
   messages,
   onFetchMoreMessages,
+  flatListRef,
 }: Props): JSX.Element => {
   const user = useAppSelector((state) => state.userState.user) as UserDBSchema;
 
-  console.log('rendering');
   return (
-    <>
-      <FlatList
-        inverted
-        renderItem={({ item }) => renderItem(item, user)}
-        onEndReached={onFetchMoreMessages}
-        data={messages}
-        onEndReachedThreshold={0.5}
-      />
-    </>
+    <FlatList
+      inverted
+      renderItem={({ item }) => renderItem(item, user)}
+      onEndReached={onFetchMoreMessages}
+      data={messages}
+      onEndReachedThreshold={0.5}
+      ref={flatListRef}
+    />
   );
 };
 
