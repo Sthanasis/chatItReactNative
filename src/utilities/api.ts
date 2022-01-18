@@ -118,3 +118,11 @@ export const acceptConnect = async (senderUid: string, receiverUid: string) => {
 
   return await res.json();
 };
+
+export const updateUserStatus = async(uid:string, active: boolean) => {
+  const res = await fetch(
+    `${baseUrl}/users`,
+    await(patchOptions({uid,active}))
+  )
+  return await res.json();
+}
