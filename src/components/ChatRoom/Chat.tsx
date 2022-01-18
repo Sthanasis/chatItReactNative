@@ -46,8 +46,8 @@ const Chat = ({ room }: Props): JSX.Element => {
       };
       handleNewMessage(msg);
       setMessage('');
-      socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
       flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
+      socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
       await sendMessage(room.id, msg);
       socket.emit('send-message', msg);
     }
@@ -109,11 +109,12 @@ const Chat = ({ room }: Props): JSX.Element => {
     const timeout = setTimeout(() => {
       socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
     }, 1000);
+
     return () => {
       socket.off('typing');
       clearTimeout(timeout);
     };
-  }, [socket]);
+  }, [socket, message]);
 
   useEffect(() => {
     getChatRoomMessages();
