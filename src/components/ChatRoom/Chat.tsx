@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { Message, Room } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
+import { setError } from '../../store/reducers/appSlice';
 import { getChat, sendMessage } from '../../utilities/api';
 import { Colors } from '../../utilities/colors';
 import { socket } from '../../utilities/sockets';
@@ -22,9 +24,12 @@ const Chat = ({ room }: Props): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
-  const [limit, setLimit] = useState(0);
+  const [count, setCount] = useState(0);
   const [message, setMessage] = useState('');
   const [showLoader, setShowLoader] = useState(false);
+
+  const flatListRef = useRef<FlatList | null>(null);
+
   const theme = useAppSelector((state) => state.settingsState.theme);
 
   const handleNewMessage = (data: Message) => {
@@ -41,37 +46,39 @@ const Chat = ({ room }: Props): JSX.Element => {
       };
       handleNewMessage(msg);
       setMessage('');
+      socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
       await sendMessage(room.id, msg);
       socket.emit('send-message', msg);
     }
   };
   const onFetchMessages = useCallback(async () => {
-    if (limit < totalCount) {
+    if (count < totalCount) {
       try {
         setShowLoader(true);
         const res = await getChat(
           combineUserUids(room.senderUid, room.receiverUid),
-          limit,
+          count,
         );
-        setLimit(limit + 20);
+        setCount(count + STEP);
         setMessages([...messages, ...res.data.messages]);
         setShowLoader(false);
       } catch (err) {
-        console.log({ err });
+        setError(`${err}`);
         setShowLoader(false);
       }
     }
-  }, [limit, totalCount, messages]);
+  }, [count, totalCount, messages]);
 
   const getChatRoomMessages = async () => {
     try {
       const res = await getChat(
         combineUserUids(room.senderUid, room.receiverUid),
-        limit,
+        count,
       );
       setLoading(false);
       setTotalCount(res.data.totalCount);
-      setLimit(limit + 20);
+      setCount(count + STEP);
       setMessages(res.data.messages);
     } catch (err) {
       console.log({ err });
@@ -100,7 +107,7 @@ const Chat = ({ room }: Props): JSX.Element => {
       setIsTyping(typing);
     });
     const timeout = setTimeout(() => {
-      setIsTyping(false);
+      socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
     }, 1000);
     return () => {
       socket.off('typing');
@@ -130,7 +137,11 @@ const Chat = ({ room }: Props): JSX.Element => {
           }}
         />
       )}
-      <MessagesList messages={messages} onFetchMoreMessages={onFetchMessages} />
+      <MessagesList
+        flatListRef={flatListRef}
+        messages={messages}
+        onFetchMoreMessages={onFetchMessages}
+      />
       {isTyping && (
         <View style={styles.receivedMessageContainer}>
           <View style={styles.receivedMessage}>
