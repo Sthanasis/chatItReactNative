@@ -9,6 +9,7 @@ import { getActiveConnections } from '../utilities/api';
 import { setError } from '../store/reducers/appSlice';
 import Loader from '../components/ui/Loader';
 import UserCard from '../components/ui/UserCard';
+import { socket } from '../utilities/sockets';
 
 const Chats = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
@@ -18,6 +19,10 @@ const Chats = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const loggedUser = useAppSelector((state) => state.userState.user);
 
   const dispatch = useAppDispatch();
+
+  const handlePress = (user: UserDBSchema) => {
+    navigation.navigate('ChatRoom', { user });
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -38,9 +43,21 @@ const Chats = ({ navigation, route }: NavPropsHome): JSX.Element => {
     getData();
   }, []);
 
-  const handlePress = (user: UserDBSchema) => {
-    navigation.navigate('ChatRoom', { user });
-  };
+  useEffect(() => {
+    socket.on('userStatus', ({ uid, active }) => {
+      setUsers(
+        users.map((user) => {
+          if (user.uid === uid) {
+            return { ...user, active };
+          }
+          return { ...user };
+        }),
+      );
+    });
+    return () => {
+      socket.off('userStatus');
+    };
+  }, [socket]);
 
   if (loading) {
     return <Loader theme={theme} />;
