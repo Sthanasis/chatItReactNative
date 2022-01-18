@@ -9,12 +9,15 @@ import { Colors } from '../utilities/colors';
 import { setTheme } from '../store/reducers/settingsSlice';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../components/ui/Button';
-import { signOut } from '../utilities/api';
+import { signOut, updateUserStatus } from '../utilities/api';
 import { setUser } from '../store/reducers/userSlice';
 import { setError } from '../store/reducers/appSlice';
+import { socket } from '../utilities/sockets';
 
 const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
+  const user = useAppSelector((state) => state.userState.user);
+
   const isSwitchOn = theme === 'dark';
   const dispatch = useAppDispatch();
 
@@ -24,7 +27,13 @@ const Settings = ({ navigation, route }: NavPropsHome): JSX.Element => {
 
   const signOutHanlder = async () => {
     try {
+      await updateUserStatus(user?.uid as string, false);
+      socket.emit('user-status', {
+        uid: user?.uid,
+        active: false,
+      });
       await signOut();
+
       dispatch(setUser(null));
     } catch (err) {
       dispatch(setError(`${err}`));

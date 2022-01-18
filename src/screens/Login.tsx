@@ -9,10 +9,11 @@ import Input from '../components/ui/Input';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setUser } from '../store/reducers/userSlice';
 import screenStyles from '../styles/ScreenStyles';
-import { signIn } from '../utilities/api';
+import { signIn, updateUserStatus } from '../utilities/api';
 import * as storage from '../utilities/asyncStorage';
 import { useTextColor } from '../utilities/hooks';
 import { setError, setLoading } from '../store/reducers/appSlice';
+import { socket } from '../utilities/sockets';
 
 const LoginScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
   const theme = useAppSelector((state) => state.settingsState.theme);
@@ -28,13 +29,16 @@ const LoginScreen = ({ navigation }: NavPropsAuth): JSX.Element => {
     try {
       const response = await signIn(email, password);
       const result = await response.json();
+      const user = result.result.user;
       const promises = [
         storage.setItem('token', result.result.token),
         storage.setItem('expires', result.result.expires),
-        storage.setItem('user', JSON.stringify(result.result.user)),
+        storage.setItem('user', JSON.stringify(user)),
       ];
       await Promise.all(promises);
-      dispatch(setUser(result.result.user));
+      await updateUserStatus(user.uid, true);
+      socket.emit('user-status', { uid: user.uid, active: true });
+      dispatch(setUser(user));
       dispatch(setLoading(false));
     } catch (err) {
       dispatch(setLoading(false));
