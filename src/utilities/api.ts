@@ -5,8 +5,9 @@ import { appBaseUrl } from '../config';
 import * as storage from '../utilities/asyncStorage';
 
 
-const baseUrl = `http://${appBaseUrl}/api`; //home
-export const appUrl = `http://${appBaseUrl}`
+const baseUrl = `${appBaseUrl}/api`; //home
+export const appUrl = appBaseUrl
+
 const getOptions = async () => {
   const token = await storage.getItem('token');
   return {
@@ -19,7 +20,7 @@ const getOptions = async () => {
 
 const postOptions = (data: any) => {
   return {
-    method: 'POST',
+    method: 'POST', 
     headers: {
       'Content-Type': 'application/json',
     },

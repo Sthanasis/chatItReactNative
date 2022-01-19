@@ -3,10 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "NODE_ENV=developement && react-native run-android",
-    "android-prod": "NODE_ENV=production && react-native run-android",
-    "ios": "NODE_ENV=development react-native run-ios",
-    "ios-prod": "NODE_ENV=production react-native run-ios",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"

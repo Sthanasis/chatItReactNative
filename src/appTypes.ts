@@ -96,6 +96,7 @@ export interface Room {
 }
 
 export interface Message {
+  id: string;
   senderUid: string;
   receiverUid: string;
   message: string;

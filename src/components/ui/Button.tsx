@@ -25,7 +25,7 @@ const Button = ({
 
   const TouchableCmp: ComponentType<
     TouchableOpacityProps | TouchableNativeFeedbackProps
-  > = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
+  > = Platform.OS === 'android' && Platform.Version >= 21 ? TouchableNativeFeedback : TouchableOpacity;
 
   let buttonStyleBg = {};
   let buttonStyleText = {};

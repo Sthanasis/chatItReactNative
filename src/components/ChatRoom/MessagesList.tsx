@@ -1,73 +1,53 @@
-import React, { memo, Ref } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { memo, Ref, useEffect, useMemo, useRef } from 'react';
+import { FlatList, View } from 'react-native';
+
 import { Message, UserDBSchema } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
-import { Colors } from '../../utilities/colors';
+import Loader from '../ui/Loader';
+
+import MessageItem from './MessageItem';
 
 interface Props {
   messages: Message[];
   onFetchMoreMessages: () => void;
   flatListRef: Ref<FlatList>;
+  fetching: boolean;
 }
-
-const renderItem = (item: Message, user: UserDBSchema) => {
-  const messageExtraStyles =
-    item.senderUid === user.uid ? styles.sendMessage : styles.receivedMessage;
-  return (
-    <View
-      style={
-        item.senderUid === user.uid
-          ? styles.sendMessageContainer
-          : styles.receivedMessageContainer
-      }>
-      <View style={{ ...styles.messageContainer, ...messageExtraStyles }}>
-        <Text style={{ fontSize: 18 }}>{item.message}</Text>
-      </View>
-    </View>
-  );
-};
 
 const MessagesList = ({
   messages,
   onFetchMoreMessages,
   flatListRef,
+  fetching,
 }: Props): JSX.Element => {
   const user = useAppSelector((state) => state.userState.user) as UserDBSchema;
+  const theme = useAppSelector((state) => state.settingsState.theme);
+
+  const renderItem = ({ item }: { item: Message }) => {
+    return <MessageItem item={item} user={user} />;
+  };
+
+  const memoizedRenderItem = useMemo(() => renderItem, [messages]);
 
   return (
     <FlatList
-      inverted
-      renderItem={({ item }) => renderItem(item, user)}
+      renderItem={memoizedRenderItem}
+      style={{ scaleY: -1 }}
       onEndReached={onFetchMoreMessages}
       data={messages}
-      onEndReachedThreshold={0.5}
-      ref={flatListRef}
+      keyExtractor={(item) => item.id}
+      ListFooterComponent={
+        fetching ? (
+          <Loader
+            theme={theme}
+            loaderStyles={{
+              marginTop: 20,
+            }}
+          />
+        ) : null
+      }
     />
   );
 };
-
-const styles = StyleSheet.create({
-  messageContainer: {
-    maxWidth: '50%',
-  },
-  sendMessageContainer: {
-    alignItems: 'flex-end',
-  },
-  receivedMessageContainer: {
-    alignItems: 'flex-start',
-  },
-  sendMessage: {
-    padding: 7,
-    backgroundColor: Colors.secondary,
-    borderRadius: 15,
-    marginVertical: 5,
-  },
-  receivedMessage: {
-    padding: 7,
-    backgroundColor: Colors.third,
-    borderRadius: 15,
-    marginVertical: 5,
-  },
-});
 
 export default memo(MessagesList);

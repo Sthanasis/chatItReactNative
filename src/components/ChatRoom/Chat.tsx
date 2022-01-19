@@ -7,7 +7,11 @@ import { setError } from '../../store/reducers/appSlice';
 import { getChat, sendMessage } from '../../utilities/api';
 import { Colors } from '../../utilities/colors';
 import { socket } from '../../utilities/sockets';
-import { combineUserUids } from '../../utilities/utils';
+import {
+  combineUserUids,
+  generateShortUniqueUid,
+  generateUniqueUid,
+} from '../../utilities/utils';
 import Button from '../ui/Button';
 
 import Loader from '../ui/Loader';
@@ -17,7 +21,7 @@ interface Props {
   room: Room;
 }
 
-const STEP = 20;
+const STEP = 15;
 
 const Chat = ({ room }: Props): JSX.Element => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -39,6 +43,7 @@ const Chat = ({ room }: Props): JSX.Element => {
   const onSendMessage = async () => {
     if (message.trim() !== '') {
       const msg: Message = {
+        id: generateShortUniqueUid(),
         senderUid: room.senderUid,
         receiverUid: room.receiverUid,
         message,
@@ -70,22 +75,6 @@ const Chat = ({ room }: Props): JSX.Element => {
     }
   }, [count, totalCount, messages]);
 
-  const getChatRoomMessages = async () => {
-    try {
-      const res = await getChat(
-        combineUserUids(room.senderUid, room.receiverUid),
-        count,
-      );
-      setLoading(false);
-      setTotalCount(res.data.totalCount);
-      setCount(count + STEP);
-      setMessages(res.data.messages);
-    } catch (err) {
-      console.log({ err });
-      setLoading(false);
-    }
-  };
-
   const onChangeText = (text: string) => {
     setMessage(text);
     const payload = { uid: room.receiverUid, isTyping: true };
@@ -109,7 +98,6 @@ const Chat = ({ room }: Props): JSX.Element => {
     const timeout = setTimeout(() => {
       socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
     }, 1000);
-
     return () => {
       socket.off('typing');
       clearTimeout(timeout);
@@ -117,32 +105,40 @@ const Chat = ({ room }: Props): JSX.Element => {
   }, [socket, message]);
 
   useEffect(() => {
+    const getChatRoomMessages = async () => {
+      try {
+        const res = await getChat(
+          combineUserUids(room.senderUid, room.receiverUid),
+          count,
+        );
+        setTotalCount(res.data.totalCount);
+        setCount(count + STEP);
+        setMessages(res.data.messages);
+        setLoading(false);
+      } catch (err) {
+        console.log({ err });
+        setLoading(false);
+      }
+    };
     getChatRoomMessages();
   }, []);
 
-  return loading ? (
-    <Loader theme={theme} />
-  ) : (
-    <SafeAreaView
+  return (
+    <View
       style={{
         ...styles.container,
         backgroundColor: theme === 'dark' ? Colors.dark : Colors.light,
       }}>
-      {showLoader && (
-        <Loader
-          theme={theme}
-          loaderStyles={{
-            marginTop: 30,
-            backgroundColor: 'transparent',
-            zIndex: 2,
-          }}
+      {loading ? (
+        <Loader theme={theme} />
+      ) : (
+        <MessagesList
+          flatListRef={flatListRef}
+          messages={messages}
+          onFetchMoreMessages={onFetchMessages}
+          fetching={showLoader}
         />
       )}
-      <MessagesList
-        flatListRef={flatListRef}
-        messages={messages}
-        onFetchMoreMessages={onFetchMessages}
-      />
       {isTyping && (
         <View style={styles.receivedMessageContainer}>
           <View style={styles.receivedMessage}>
@@ -166,7 +162,7 @@ const Chat = ({ room }: Props): JSX.Element => {
         />
         <Button type="transparent" onPress={onSendMessage} title="Send" />
       </SafeAreaView>
-    </SafeAreaView>
+    </View>
   );
 };
 
