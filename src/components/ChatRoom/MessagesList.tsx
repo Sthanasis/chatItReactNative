@@ -1,5 +1,5 @@
-import React, { memo, Ref, useEffect, useMemo, useRef } from 'react';
-import { FlatList, View } from 'react-native';
+import React, { memo, Ref, useMemo } from 'react';
+import { FlatList, Platform } from 'react-native';
 
 import { Message, UserDBSchema } from '../../appTypes';
 import { useAppSelector } from '../../store/hooks';
@@ -31,6 +31,7 @@ const MessagesList = ({
 
   return (
     <FlatList
+      inverted={Platform.OS === 'ios'}
       renderItem={memoizedRenderItem}
       style={{ scaleY: -1 }}
       onEndReached={onFetchMoreMessages}
