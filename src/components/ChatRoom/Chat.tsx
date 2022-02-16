@@ -93,8 +93,10 @@ const Chat = ({ room }: Props): JSX.Element => {
 
   useEffect(() => {
     socket.on('typing', (typing: boolean) => {
+      console.log(typing);
       setIsTyping(typing);
     });
+
     const timeout = setTimeout(() => {
       socket.emit('isTyping', { uid: room.receiverUid, isTyping: false });
     }, 1000);

@@ -89,7 +89,7 @@ const App = () => {
         socket.emit('reconnect', user);
       }
     }
-  }, [isLoggedIn, socket]);
+  }, [isLoggedIn, socket, user]);
 
   if (loading) {
     return <Loader theme={theme} />;
